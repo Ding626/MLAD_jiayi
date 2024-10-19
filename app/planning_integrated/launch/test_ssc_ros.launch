@@ -1,0 +1,192 @@
+<launch>
+  <arg name="arena_info_static_topic" value="/arena_info_static" />
+  <arg name="arena_info_dynamic_topic" value="/arena_info_dynamic" />
+
+  <arg name="ctrl_topic" value="/ctrl/agent_" />
+
+  <!-- <arg name="playground" value = "multi_lane_route_v1.0" /> -->
+  <!-- <arg name="playground" value = "tiny_multi_lane_route_v1.0" /> -->
+  <!-- <arg name="playground" value = "tiny_multi_lane_route_v2.0" /> -->
+  <!-- <arg name="playground" value = "tiny_multi_lane_route_v3.0" /> -->
+  <!-- <arg name="playground" value = "tiny_multi_lane_route_v4.0" /> -->
+  <!-- <arg name="playground" value = "tiny_multi_lane_route_v5.0" /> -->
+  <!-- <arg name="playground" value = "flow_control_v2.0" /> -->
+  <!-- <arg name="playground" value = "flow_control_v2.0" /> -->
+  <!-- <arg name="playground" value = "avoidance_demo_v1.0" /> -->
+  <!-- <arg name="playground" value = "avoidance_demo_v2.0" /> -->
+  <!-- <arg name="playground" value = "lane_change_v1.0" /> -->
+  <!-- <arg name="playground" value = "flow_control_v1.0" /> -->
+  <!-- <arg name="playground" value = "flow_control_v2.0" /> -->
+  <!-- <arg name="playground" value = "701_uc1" /> -->
+  <arg name="playground" value = "701_uc3" />
+
+  <!-- <arg name="id" default = "0" />
+  <node pkg="planning_integrated"
+        type="test_ssc"
+        name="test_ssc_$(arg id)"
+        output="screen">
+    <param name="ego_id" type="int" value="$(arg id)" />
+    <param name="agent_config_path" type="string" value="$(find playgrounds)/$(arg playground)/agent_config.json" />
+    <param name="bp_config_path" type="string" value="$(find eudm_planner)/config/eudm_config.pb.txt" />
+    <param name="ssc_config_path" type="string" value="$(find ssc_planner)/config/ssc_config.pb.txt" />
+    <param name="use_sim_state" value="true"/>
+    <remap from="~arena_info_static" to="$(arg arena_info_static_topic)"/>
+    <remap from="~arena_info_dynamic" to="$(arg arena_info_dynamic_topic)"/>
+    <remap from="~ctrl" to="$(arg ctrl_topic)$(arg id)"/>
+  </node> -->
+
+  <node pkg="planning_integrated"
+        type="test_ssc"
+        name="test_ssc_0"
+        output="screen">
+    <param name="ego_id" type="int" value="0" />
+    <param name="agent_config_path" type="string" value="$(find playgrounds)/$(arg playground)/agent_config.json" />
+    <param name="bp_config_path" type="string" value="$(find eudm_planner)/config/eudm_config.pb.txt" />
+    <param name="ssc_config_path" type="string" value="$(find ssc_planner)/config/ssc_config.pb.txt" />
+    <param name="use_sim_state" value="true"/>
+    <remap from="~arena_info_static" to="$(arg arena_info_static_topic)"/>
+    <remap from="~arena_info_dynamic" to="$(arg arena_info_dynamic_topic)"/>
+    <remap from="~ctrl" to="$(arg ctrl_topic)0"/>
+  </node>
+
+  <node pkg="planning_integrated"
+        type="test_ssc"
+        name="test_ssc_1"
+        output="screen">
+    <param name="ego_id" type="int" value="1" />
+    <param name="agent_config_path" type="string" value="$(find playgrounds)/$(arg playground)/agent_config.json" />
+    <param name="bp_config_path" type="string" value="$(find eudm_planner)/config/eudm_config.pb.txt" />
+    <param name="ssc_config_path" type="string" value="$(find ssc_planner)/config/ssc_config.pb.txt" />
+    <param name="use_sim_state" value="true"/>
+    <remap from="~arena_info_static" to="$(arg arena_info_static_topic)"/>
+    <remap from="~arena_info_dynamic" to="$(arg arena_info_dynamic_topic)"/>
+    <remap from="~ctrl" to="$(arg ctrl_topic)1"/>
+  </node>
+
+  <node pkg="planning_integrated"
+        type="test_ssc"
+        name="test_ssc_2"
+        output="screen">
+    <param name="ego_id" type="int" value="2" />
+    <param name="agent_config_path" type="string" value="$(find playgrounds)/$(arg playground)/agent_config.json" />
+    <param name="bp_config_path" type="string" value="$(find eudm_planner)/config/eudm_config.pb.txt" />
+    <param name="ssc_config_path" type="string" value="$(find ssc_planner)/config/ssc_config.pb.txt" />
+    <param name="use_sim_state" value="true"/>
+    <remap from="~arena_info_static" to="$(arg arena_info_static_topic)"/>
+    <remap from="~arena_info_dynamic" to="$(arg arena_info_dynamic_topic)"/>
+    <remap from="~ctrl" to="$(arg ctrl_topic)2"/>
+  </node>
+
+  <node pkg="planning_integrated"
+        type="test_ssc"
+        name="test_ssc_3"
+        output="screen">
+    <param name="ego_id" type="int" value="3" />
+    <param name="agent_config_path" type="string" value="$(find playgrounds)/$(arg playground)/agent_config.json" />
+    <param name="bp_config_path" type="string" value="$(find eudm_planner)/config/eudm_config.pb.txt" />
+    <param name="ssc_config_path" type="string" value="$(find ssc_planner)/config/ssc_config.pb.txt" />
+    <param name="use_sim_state" value="true"/>
+    <remap from="~arena_info_static" to="$(arg arena_info_static_topic)"/>
+    <remap from="~arena_info_dynamic" to="$(arg arena_info_dynamic_topic)"/>
+    <remap from="~ctrl" to="$(arg ctrl_topic)3"/>
+  </node>
+
+  <node pkg="planning_integrated"
+        type="test_ssc"
+        name="test_ssc_4"
+        output="screen">
+    <param name="ego_id" type="int" value="4" />
+    <param name="agent_config_path" type="string" value="$(find playgrounds)/$(arg playground)/agent_config.json" />
+    <param name="bp_config_path" type="string" value="$(find eudm_planner)/config/eudm_config.pb.txt" />
+    <param name="ssc_config_path" type="string" value="$(find ssc_planner)/config/ssc_config.pb.txt" />
+    <param name="use_sim_state" value="true"/>
+    <remap from="~arena_info_static" to="$(arg arena_info_static_topic)"/>
+    <remap from="~arena_info_dynamic" to="$(arg arena_info_dynamic_topic)"/>
+    <remap from="~ctrl" to="$(arg ctrl_topic)4"/>
+  </node>
+
+  <node pkg="planning_integrated"
+        type="test_ssc"
+        name="test_ssc_5"
+        output="screen">
+    <param name="ego_id" type="int" value="5" />
+    <param name="agent_config_path" type="string" value="$(find playgrounds)/$(arg playground)/agent_config.json" />
+    <param name="bp_config_path" type="string" value="$(find eudm_planner)/config/eudm_config.pb.txt" />
+    <param name="ssc_config_path" type="string" value="$(find ssc_planner)/config/ssc_config.pb.txt" />
+    <param name="use_sim_state" value="true"/>
+    <remap from="~arena_info_static" to="$(arg arena_info_static_topic)"/>
+    <remap from="~arena_info_dynamic" to="$(arg arena_info_dynamic_topic)"/>
+    <remap from="~ctrl" to="$(arg ctrl_topic)5"/>
+  </node>
+
+  <node pkg="planning_integrated"
+        type="test_ssc"
+        name="test_ssc_6"
+        output="screen">
+    <param name="ego_id" type="int" value="6" />
+    <param name="agent_config_path" type="string" value="$(find playgrounds)/$(arg playground)/agent_config.json" />
+    <param name="bp_config_path" type="string" value="$(find eudm_planner)/config/eudm_config.pb.txt" />
+    <param name="ssc_config_path" type="string" value="$(find ssc_planner)/config/ssc_config.pb.txt" />
+    <param name="use_sim_state" value="true"/>
+    <remap from="~arena_info_static" to="$(arg arena_info_static_topic)"/>
+    <remap from="~arena_info_dynamic" to="$(arg arena_info_dynamic_topic)"/>
+    <remap from="~ctrl" to="$(arg ctrl_topic)6"/>
+  </node>
+
+    <node pkg="planning_integrated"
+        type="test_ssc"
+        name="test_ssc_7"
+        output="screen">
+    <param name="ego_id" type="int" value="7" />
+    <param name="agent_config_path" type="string" value="$(find playgrounds)/$(arg playground)/agent_config.json" />
+    <param name="bp_config_path" type="string" value="$(find eudm_planner)/config/eudm_config.pb.txt" />
+    <param name="ssc_config_path" type="string" value="$(find ssc_planner)/config/ssc_config.pb.txt" />
+    <param name="use_sim_state" value="true"/>
+    <remap from="~arena_info_static" to="$(arg arena_info_static_topic)"/>
+    <remap from="~arena_info_dynamic" to="$(arg arena_info_dynamic_topic)"/>
+    <remap from="~ctrl" to="$(arg ctrl_topic)7"/>
+  </node>
+
+  <node pkg="planning_integrated"
+        type="test_ssc"
+        name="test_ssc_8"
+        output="screen">
+    <param name="ego_id" type="int" value="8" />
+    <param name="agent_config_path" type="string" value="$(find playgrounds)/$(arg playground)/agent_config.json" />
+    <param name="bp_config_path" type="string" value="$(find eudm_planner)/config/eudm_config.pb.txt" />
+    <param name="ssc_config_path" type="string" value="$(find ssc_planner)/config/ssc_config.pb.txt" />
+    <param name="use_sim_state" value="true"/>
+    <remap from="~arena_info_static" to="$(arg arena_info_static_topic)"/>
+    <remap from="~arena_info_dynamic" to="$(arg arena_info_dynamic_topic)"/>
+    <remap from="~ctrl" to="$(arg ctrl_topic)8"/>
+  </node>
+
+
+  <!-- <node pkg="planning_integrated"
+        type="test_ssc"
+        name="test_ssc_5"
+        output="screen">
+    <param name="ego_id" type="int" value="5" />
+    <param name="agent_config_path" type="string" value="$(find playgrounds)/$(arg playground)/agent_config.json" />
+    <param name="bp_config_path" type="string" value="$(find eudm_planner)/config/eudm_config.pb.txt" />
+    <param name="ssc_config_path" type="string" value="$(find ssc_planner)/config/ssc_config.pb.txt" />
+    <param name="use_sim_state" value="true"/>
+    <remap from="~arena_info_static" to="$(arg arena_info_static_topic)"/>
+    <remap from="~arena_info_dynamic" to="$(arg arena_info_dynamic_topic)"/>
+    <remap from="~ctrl" to="$(arg ctrl_topic)5"/>
+  </node> -->
+
+  <!-- <node pkg="planning_integrated"
+        type="test_ssc"
+        name="test_ssc_6"
+        output="screen">
+    <param name="ego_id" type="int" value="6" />
+    <param name="agent_config_path" type="string" value="$(find playgrounds)/$(arg playground)/agent_config.json" />
+    <param name="bp_config_path" type="string" value="$(find eudm_planner)/config/eudm_config.pb.txt" />
+    <param name="ssc_config_path" type="string" value="$(find ssc_planner)/config/ssc_config.pb.txt" />
+    <param name="use_sim_state" value="true"/>
+    <remap from="~arena_info_static" to="$(arg arena_info_static_topic)"/>
+    <remap from="~arena_info_dynamic" to="$(arg arena_info_dynamic_topic)"/>
+    <remap from="~ctrl" to="$(arg ctrl_topic)6"/>
+  </node> -->
+</launch>

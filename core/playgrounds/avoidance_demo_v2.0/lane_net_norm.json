@@ -1,0 +1,498 @@
+{
+    "crs": {
+     "type": "name",
+     "properties": {
+      "name": "urn:ogc:def:crs:EPSG::32610"
+     }
+    },
+    "type": "FeatureCollection",
+    "name": "lane_net",
+    "features": [
+     {
+      "geometry": {
+       "type": "MultiLineString",
+       "coordinates": [
+        [
+            [
+             0.0,
+             0.0
+            ],
+            [
+             0.5,
+             0.0
+            ],
+            [
+             1.0,
+             0.0
+            ],
+            [
+             1.5,
+             0.0
+            ],
+            [
+             2.0,
+             0.0
+            ],
+            [
+             2.5,
+             0.0
+            ],
+            [
+             5.0,
+             0.0
+            ],
+            [
+             7.5,
+             0.0
+            ],
+            [
+             10.0,
+             0.0
+            ],
+            [
+             12.5,
+             0.0
+            ],
+            [
+             15.0,
+             0.0
+            ],
+            [
+             17.5,
+             0.0
+            ],
+            [
+             20.0,
+             0.0
+            ],
+            [
+             22.5,
+             0.0
+            ],
+            [
+             25.0,
+             0.0
+            ]
+           ]
+       ]
+      },
+      "type": "Feature",
+      "properties": {
+       "right_id": 0,
+       "left_id": 2,
+       "rchg_vld": 0,
+       "length": 25,
+       "father_id": "4",
+       "behavior": "s",
+       "child_id": "0",
+       "lchg_vld": 1,
+       "id": 1,
+       "dir": 0,
+       "buffer": 3,
+       "group": 1,
+       "is_multi_lane_route": true,
+       "dir_changeable": false
+      }
+     },
+     {
+        "geometry": {
+         "type": "MultiLineString",
+         "coordinates": [
+            [
+                [
+                 0.0,
+                 0.7
+                ],
+                [
+                 0.5,
+                 0.7
+                ],
+                [
+                 1.0,
+                 0.7
+                ],
+                [
+                 1.5,
+                 0.7
+                ],
+                [
+                 2.0,
+                 0.7
+                ],
+                [
+                 2.5,
+                 0.7
+                ],
+                [
+                 5.0,
+                 0.7
+                ],
+                [
+                 7.5,
+                 0.7
+                ],
+                [
+                 10.0,
+                 0.7
+                ],
+                [
+                 12.5,
+                 0.7
+                ],
+                [
+                 15.0,
+                 0.7
+                ],
+                [
+                 17.5,
+                 0.7
+                ],
+                [
+                 20.0,
+                 0.7
+                ],
+                [
+                 22.5,
+                 0.7
+                ],
+                [
+                 25.0,
+                 0.7
+                ]
+               ]
+         ]
+        },
+        "type": "Feature",
+        "properties": {
+         "right_id": 1,
+         "left_id": 3,
+         "rchg_vld": 1,
+         "length": 25,
+         "father_id": "0",
+         "behavior": "s",
+         "child_id": "0",
+         "lchg_vld": 1,
+         "id": 2,
+         "dir": 0,
+         "buffer": 3,
+         "group": 1,
+         "is_multi_lane_route": true,
+         "dir_changeable": true
+        }
+       },
+       {
+        "geometry": {
+         "type": "MultiLineString",
+         "coordinates": [
+            [
+                [
+                 0.0,
+                 1.4
+                ],
+                [
+                 2.5,
+                 1.4
+                ],
+                [
+                 5.0,
+                 1.4
+                ],
+                [
+                 7.5,
+                 1.4
+                ],
+                [
+                 10.0,
+                 1.4
+                ],
+                [
+                 12.5,
+                 1.4
+                ],
+                [
+                 15.0,
+                 1.4
+                ],
+                [
+                 17.5,
+                 1.4
+                ],
+                [
+                 20.0,
+                 1.4
+                ],
+                [
+                 22.5,
+                 1.4
+                ],
+                [
+                 25.0,
+                 1.4
+                ]
+               ]
+         ]
+        },
+        "type": "Feature",
+        "properties": {
+         "right_id": 2,
+         "left_id": 0,
+         "rchg_vld": 1,
+         "length": 25,
+         "father_id": "0",
+         "behavior": "s",
+         "child_id": "5",
+         "lchg_vld": 0,
+         "id": 3,
+         "dir": 0,
+         "buffer": 3,
+         "group": 1,
+         "is_multi_lane_route": true,
+         "dir_changeable": false
+        }
+       },
+       {
+        "geometry": {
+         "type": "MultiLineString",
+         "coordinates": [
+            [
+                [
+                 -100.0,
+                 0.0
+                ],
+                [
+                 -97.5,
+                 0.0
+                ],
+                [
+                 -95.0,
+                 0.0
+                ],
+                [
+                 -92.5,
+                 0.0
+                ],
+                [
+                 -90.0,
+                 0.0
+                ],
+                [
+                 -87.5,
+                 0.0
+                ],
+                [
+                 -85.0,
+                 0.0
+                ],
+                [
+                 -82.5,
+                 0.0
+                ],
+                [
+                 -80.0,
+                 0.0
+                ],
+                [
+                 -77.5,
+                 0.0
+                ],
+                [
+                 -75.0,
+                 0.0
+                ],
+                [
+                 -72.5,
+                 0.0
+                ],
+                [
+                 -70.0,
+                 0.0
+                ],
+                [
+                 -67.5,
+                 0.0
+                ],
+                [
+                 -65.0,
+                 0.0
+                ],
+                [
+                 -62.5,
+                 0.0
+                ],
+                [
+                 -60.0,
+                 0.0
+                ],
+                [
+                 -57.5,
+                 0.0
+                ],
+                [
+                 -55.0,
+                 0.0
+                ],
+                [
+                 -52.5,
+                 0.0
+                ],
+                [
+                 -50.0,
+                 0.0
+                ],
+                [
+                 -47.5,
+                 0.0
+                ],
+                [
+                 -45.0,
+                 0.0
+                ],
+                [
+                 -42.5,
+                 0.0
+                ],
+                [
+                 -40.0,
+                 0.0
+                ],
+                [
+                 -37.5,
+                 0.0
+                ],
+                [
+                 -35.0,
+                 0.0
+                ],
+                [
+                 -32.5,
+                 0.0
+                ],
+                [
+                 -30.0,
+                 0.0
+                ],
+                [
+                 -27.5,
+                 0.0
+                ],
+                [
+                 -25.0,
+                 0.0
+                ],
+                [
+                 -22.5,
+                 0.0
+                ],
+                [
+                 -20.0,
+                 0.0
+                ],
+                [
+                 -17.5,
+                 0.0
+                ],
+                [
+                 -15.0,
+                 0.0
+                ],
+                [
+                 -12.5,
+                 0.0
+                ],
+                [
+                 -10.0,
+                 0.0
+                ],
+                [
+                 -7.5,
+                 0.0
+                ],
+                [
+                 -5.0,
+                 0.0
+                ],
+                [
+                 -2.5,
+                 0.0
+                ],
+                [
+                 0.0,
+                 0.0
+                ]
+               ]
+         ]
+        },
+        "type": "Feature",
+        "properties": {
+         "right_id": 0,
+         "left_id": 0,
+         "rchg_vld": 0,
+         "length": 100,
+         "father_id": "0",
+         "behavior": "s",
+         "child_id": "1",
+         "lchg_vld": 0,
+         "id": 4,
+         "dir": 0,
+         "buffer": 3,
+         "group": 0,
+         "is_multi_lane_route": false,
+         "dir_changeable": false
+        }
+       },
+       {
+        "geometry": {
+         "type": "MultiLineString",
+         "coordinates": [
+            [
+                [
+                25.0,
+                1.4
+                ],
+                [
+                27.5,
+                1.4
+                ],
+                [
+                30.0,
+                1.4
+                ],
+                [
+                 32.5,
+                 1.4
+                ],
+                [
+                 35.0,
+                 1.4
+                ],
+                [
+                 37.5,
+                 1.4
+                ],
+                [
+                 40.0,
+                 1.4
+                ]
+               ]
+         ]
+        },
+        "type": "Feature",
+        "properties": {
+         "right_id": 0,
+         "left_id": 0,
+         "rchg_vld": 0,
+         "length": 100,
+         "father_id": "3",
+         "behavior": "s",
+         "child_id": "0",
+         "lchg_vld": 0,
+         "id": 5,
+         "dir": 0,
+         "buffer": 3,
+         "group": 0,
+         "is_multi_lane_route": false,
+         "dir_changeable": false
+        }
+       }
+    ]
+}

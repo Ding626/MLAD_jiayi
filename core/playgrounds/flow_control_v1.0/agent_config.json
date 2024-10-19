@@ -1,0 +1,230 @@
+{
+  "agent_config": {
+    "_COMMENT": "[AgentConfig] - START",
+    "num": 12,
+    "info": [
+      {
+        "id": 0,
+        "type": "car",
+        "obstacle_map_meta_info": {
+          "width": 300,
+          "height": 500,
+          "resolution": 0.2
+        },
+        "surrounding_search_radius": 150.0,
+        "enable_openloop_prediction": true,
+        "desire_velocity": 20,
+        "advanced_time_for_keep_lane_plan": 0.05
+      },
+      {
+        "id": 1,
+        "type": "car",
+        "obstacle_map_meta_info": {
+          "width": 300,
+          "height": 500,
+          "resolution": 0.2
+        },
+        "surrounding_search_radius": 150.0,
+        "enable_openloop_prediction": true,
+        "desire_velocity": 20,
+        "advanced_time_for_keep_lane_plan": 0.05
+      },
+      {
+        "id": 2,
+        "type": "car",
+        "obstacle_map_meta_info": {
+          "width": 300,
+          "height": 500,
+          "resolution": 0.2
+        },
+        "surrounding_search_radius": 150.0,
+        "enable_openloop_prediction": true,
+        "desire_velocity": 20,
+        "advanced_time_for_keep_lane_plan": 0.05
+      },
+      {
+        "id": 3,
+        "type": "car",
+        "obstacle_map_meta_info": {
+          "width": 300,
+          "height": 500,
+          "resolution": 0.2
+        },
+        "surrounding_search_radius": 150.0,
+        "enable_openloop_prediction": true,
+        "desire_velocity": 20,
+        "advanced_time_for_keep_lane_plan": 0.05
+      },
+      {
+        "id": 4,
+        "type": "car",
+        "obstacle_map_meta_info": {
+          "width": 300,
+          "height": 500,
+          "resolution": 0.2
+        },
+        "surrounding_search_radius": 150.0,
+        "enable_openloop_prediction": true,
+        "desire_velocity": 20,
+        "advanced_time_for_keep_lane_plan": 0.05
+      },
+      {
+        "id": 5,
+        "type": "car",
+        "obstacle_map_meta_info": {
+          "width": 300,
+          "height": 500,
+          "resolution": 0.2
+        },
+        "surrounding_search_radius": 150.0,
+        "enable_openloop_prediction": true,
+        "desire_velocity": 20,
+        "advanced_time_for_keep_lane_plan": 0.05
+      },
+      {
+        "id": 6,
+        "type": "car",
+        "obstacle_map_meta_info": {
+          "width": 300,
+          "height": 500,
+          "resolution": 0.2
+        },
+        "surrounding_search_radius": 150.0,
+        "enable_openloop_prediction": true,
+        "desire_velocity": 20,
+        "advanced_time_for_keep_lane_plan": 0.05
+      },
+      {
+        "id": 7,
+        "type": "car",
+        "obstacle_map_meta_info": {
+          "width": 300,
+          "height": 500,
+          "resolution": 0.2
+        },
+        "surrounding_search_radius": 150.0,
+        "enable_openloop_prediction": true,
+        "desire_velocity": 20,
+        "advanced_time_for_keep_lane_plan": 0.05
+      },
+      {
+        "id": 8,
+        "type": "car",
+        "obstacle_map_meta_info": {
+          "width": 300,
+          "height": 500,
+          "resolution": 0.2
+        },
+        "surrounding_search_radius": 150.0,
+        "enable_openloop_prediction": false,
+        "desire_velocity": 20,
+        "advanced_time_for_keep_lane_plan": 0.05
+      },
+      {
+        "id": 9,
+        "type": "car",
+        "obstacle_map_meta_info": {
+          "width": 300,
+          "height": 500,
+          "resolution": 0.2
+        },
+        "surrounding_search_radius": 150.0,
+        "enable_openloop_prediction": false,
+        "desire_velocity": 20,
+        "advanced_time_for_keep_lane_plan": 0.05
+      },
+      {
+        "id": 10,
+        "type": "car",
+        "obstacle_map_meta_info": {
+          "width": 300,
+          "height": 500,
+          "resolution": 0.2
+        },
+        "surrounding_search_radius": 150.0,
+        "enable_openloop_prediction": false,
+        "desire_velocity": 20,
+        "advanced_time_for_keep_lane_plan": 0.05
+      },
+      {
+        "id": 11,
+        "type": "car",
+        "obstacle_map_meta_info": {
+          "width": 300,
+          "height": 500,
+          "resolution": 0.2
+        },
+        "surrounding_search_radius": 150.0,
+        "enable_openloop_prediction": false,
+        "desire_velocity": 20,
+        "advanced_time_for_keep_lane_plan": 0.05
+      },
+      {
+        "id": 12,
+        "type": "car",
+        "obstacle_map_meta_info": {
+          "width": 300,
+          "height": 500,
+          "resolution": 0.2
+        },
+        "surrounding_search_radius": 150.0,
+        "enable_openloop_prediction": false,
+        "desire_velocity": 20,
+        "advanced_time_for_keep_lane_plan": 0.05
+      },
+      {
+        "id": 13,
+        "type": "car",
+        "obstacle_map_meta_info": {
+          "width": 300,
+          "height": 500,
+          "resolution": 0.2
+        },
+        "surrounding_search_radius": 150.0,
+        "enable_openloop_prediction": false,
+        "desire_velocity": 20,
+        "advanced_time_for_keep_lane_plan": 0.05
+      },
+      {
+        "id": 14,
+        "type": "car",
+        "obstacle_map_meta_info": {
+          "width": 300,
+          "height": 500,
+          "resolution": 0.2
+        },
+        "surrounding_search_radius": 150.0,
+        "enable_openloop_prediction": false,
+        "desire_velocity": 20,
+        "advanced_time_for_keep_lane_plan": 0.05
+      },
+      {
+        "id": 15,
+        "type": "car",
+        "obstacle_map_meta_info": {
+          "width": 300,
+          "height": 500,
+          "resolution": 0.2
+        },
+        "surrounding_search_radius": 150.0,
+        "enable_openloop_prediction": false,
+        "desire_velocity": 20,
+        "advanced_time_for_keep_lane_plan": 0.05
+      },
+      {
+        "id": 16,
+        "type": "car",
+        "obstacle_map_meta_info": {
+          "width": 300,
+          "height": 500,
+          "resolution": 0.2
+        },
+        "surrounding_search_radius": 150.0,
+        "enable_openloop_prediction": false,
+        "desire_velocity": 20,
+        "advanced_time_for_keep_lane_plan": 0.05
+      }
+    ],
+    "__COMMENT": "[AgentConfig] - END"
+  }
+}

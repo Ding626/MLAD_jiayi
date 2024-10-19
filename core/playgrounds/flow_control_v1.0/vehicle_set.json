@@ -1,0 +1,286 @@
+{
+  "vehicles": {
+    "_COMMENT": "[Vehicles info] - START",
+    "__COMMENT": "Vehicle Subclass: car, van, truck.",
+    "___COMMENT": "Vehicle Type: co_agv, nco_agv",
+    "num": 5,
+    "info": [
+      {
+        "id": 0,
+        "subclass": "car",
+        "type": "co_agv",
+        "ready_change_lane": true,
+        "init_state": {
+          "x": -20.0, 
+          "y": 0.0,
+          "angle": 0.0,
+          "curvature": 0.0,
+          "velocity": 20.0,
+          "acceleration": 0.0,
+          "steer": 0.0
+        },
+        "params": {
+          "width": 1.90,
+          "length": 4.88,
+          "wheel_base": 2.85,
+          "front_suspension": 0.93,
+          "rear_suspension": 1.10,
+          "max_steering_angle": 45.0,
+          "max_longitudinal_acc": 2.0,
+          "max_lateral_acc": 2.0
+        }
+      },
+      {
+        "id": 1,
+        "subclass": "car",
+        "type": "co_agv",
+        "ready_change_lane": true,
+        "init_state": {
+          "x": -10.0, 
+          "y": 3.5,
+          "angle": 0.0,
+          "curvature": 0.0,
+          "velocity": 20.0,
+          "acceleration": 0.0,
+          "steer": 0.0
+        },
+        "params": {
+          "width": 1.90,
+          "length": 4.88,
+          "wheel_base": 2.85,
+          "front_suspension": 0.93,
+          "rear_suspension": 1.10,
+          "max_steering_angle": 45.0,
+          "max_longitudinal_acc": 2.0,
+          "max_lateral_acc": 2.0
+        }
+      },
+      {
+        "id": 2,
+        "subclass": "car",
+        "type": "co_agv",
+        "ready_change_lane": true,
+        "init_state": {
+          "x": -50.0, 
+          "y": 3.5,
+          "angle": 0.0,
+          "curvature": 0.0,
+          "velocity": 20.0,
+          "acceleration": 0.0,
+          "steer": 0.0
+        },
+        "params": {
+          "width": 1.90,
+          "length": 4.88,
+          "wheel_base": 2.85,
+          "front_suspension": 0.93,
+          "rear_suspension": 1.10,
+          "max_steering_angle": 45.0,
+          "max_longitudinal_acc": 2.0,
+          "max_lateral_acc": 2.0
+        }
+      },
+      {
+        "id": 3,
+        "subclass": "car",
+        "type": "co_agv",
+        "ready_change_lane": true,
+        "init_state": {
+          "x": -70.0, 
+          "y": 3.5,
+          "angle": 0.0,
+          "curvature": 0.0,
+          "velocity": 20.0,
+          "acceleration": 0.0,
+          "steer": 0.0
+        },
+        "params": {
+          "width": 1.90,
+          "length": 4.88,
+          "wheel_base": 2.85,
+          "front_suspension": 0.93,
+          "rear_suspension": 1.10,
+          "max_steering_angle": 45.0,
+          "max_longitudinal_acc": 2.0,
+          "max_lateral_acc": 2.0
+        }
+      },
+      {
+        "id": 4,
+        "subclass": "car",
+        "type": "co_agv",
+        "ready_change_lane": true,
+        "init_state": {
+          "x": -20.0, 
+          "y": 7.0,
+          "angle": 0.0,
+          "curvature": 0.0,
+          "velocity": 20.0,
+          "acceleration": 0.0,
+          "steer": 0.0
+        },
+        "params": {
+          "width": 1.90,
+          "length": 4.88,
+          "wheel_base": 2.85,
+          "front_suspension": 0.93,
+          "rear_suspension": 1.10,
+          "max_steering_angle": 45.0,
+          "max_longitudinal_acc": 2.0,
+          "max_lateral_acc": 2.0
+        }
+      },
+      {
+        "id": 5,
+        "subclass": "car",
+        "type": "co_agv",
+        "ready_change_lane": true,
+        "init_state": {
+          "x": -40.0, 
+          "y": 7.0,
+          "angle": 0.0,
+          "curvature": 0.0,
+          "velocity": 20.0,
+          "acceleration": 0.0,
+          "steer": 0.0
+        },
+        "params": {
+          "width": 1.90,
+          "length": 4.88,
+          "wheel_base": 2.85,
+          "front_suspension": 0.93,
+          "rear_suspension": 1.10,
+          "max_steering_angle": 45.0,
+          "max_longitudinal_acc": 2.0,
+          "max_lateral_acc": 2.0
+        }
+      },
+      {
+        "id": 6,
+        "subclass": "car",
+        "type": "co_agv",
+        "ready_change_lane": true,
+        "init_state": {
+          "x": -60.0, 
+          "y": 7.0,
+          "angle": 0.0,
+          "curvature": 0.0,
+          "velocity": 20.0,
+          "acceleration": 0.0,
+          "steer": 0.0
+        },
+        "params": {
+          "width": 1.90,
+          "length": 4.88,
+          "wheel_base": 2.85,
+          "front_suspension": 0.93,
+          "rear_suspension": 1.10,
+          "max_steering_angle": 45.0,
+          "max_longitudinal_acc": 2.0,
+          "max_lateral_acc": 2.0
+        }
+      },
+      {
+        "id": 7,
+        "subclass": "car",
+        "type": "nco_agv",
+        "ready_change_lane": false,
+        "init_state": {
+          "x": -40.0, 
+          "y": 0.0,
+          "angle": 0.0,
+          "curvature": 0.0,
+          "velocity": 20.0,
+          "acceleration": 0.0,
+          "steer": 0.0
+        },
+        "params": {
+          "width": 1.90,
+          "length": 4.88,
+          "wheel_base": 2.85,
+          "front_suspension": 0.93,
+          "rear_suspension": 1.10,
+          "max_steering_angle": 45.0,
+          "max_longitudinal_acc": 2.0,
+          "max_lateral_acc": 2.0
+        }
+      },
+      {
+        "id": 8,
+        "subclass": "car",
+        "type": "nco_agv",
+        "ready_change_lane": false,
+        "init_state": {
+          "x": -80.0, 
+          "y": 0.0,
+          "angle": 0.0,
+          "curvature": 0.0,
+          "velocity": 20.0,
+          "acceleration": 0.0,
+          "steer": 0.0
+        },
+        "params": {
+          "width": 1.90,
+          "length": 4.88,
+          "wheel_base": 2.85,
+          "front_suspension": 0.93,
+          "rear_suspension": 1.10,
+          "max_steering_angle": 45.0,
+          "max_longitudinal_acc": 2.0,
+          "max_lateral_acc": 2.0
+        }
+      },
+      {
+        "id": 9,
+        "subclass": "car",
+        "type": "nco_agv",
+        "ready_change_lane": false,
+        "init_state": {
+          "x": -30.0, 
+          "y": 3.5,
+          "angle": 0.0,
+          "curvature": 0.0,
+          "velocity": 20.0,
+          "acceleration": 0.0,
+          "steer": 0.0
+        },
+        "params": {
+          "width": 1.90,
+          "length": 4.88,
+          "wheel_base": 2.85,
+          "front_suspension": 0.93,
+          "rear_suspension": 1.10,
+          "max_steering_angle": 45.0,
+          "max_longitudinal_acc": 2.0,
+          "max_lateral_acc": 2.0
+        }
+      },
+      {
+        "id": 10,
+        "subclass": "car",
+        "type": "dyn_obstacle",
+        "ready_change_lane": false,
+        "init_state": {
+          "x": 500.0, 
+          "y": 7.0,
+          "angle": 0,
+          "curvature": 0.0,
+          "velocity": 0.0,
+          "acceleration": 0.0,
+          "steer": 0.0
+        },
+        "params": {
+          "width": 1.0,
+          "length": 1.0,
+          "wheel_base": 2.85,
+          "front_suspension": 0.93,
+          "rear_suspension": 1.10,
+          "max_steering_angle": 45.0,
+          "max_longitudinal_acc": 2.0,
+          "max_lateral_acc": 2.0
+        }
+      }
+    ],
+    "COMMENT_": "[Vehicles info] - END"
+  }
+}

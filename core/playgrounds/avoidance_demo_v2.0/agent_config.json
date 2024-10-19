@@ -1,0 +1,61 @@
+{
+  "agent_config": {
+    "_COMMENT": "[AgentConfig] - START",
+    "num": 4,
+    "info": [
+      {
+        "id": 0,
+        "type": "car",
+        "obstacle_map_meta_info": {
+          "width": 50,
+          "height": 50,
+          "resolution": 0.2
+        },
+        "surrounding_search_radius": 2.4,
+        "enable_openloop_prediction": true,
+        "desire_velocity": 0.45,
+        "advanced_time_for_keep_lane_plan": 0.05
+      },
+      {
+        "id": 1,
+        "type": "car",
+        "obstacle_map_meta_info": {
+          "width": 50,
+          "height": 50,
+          "resolution": 0.2
+        },
+        "surrounding_search_radius": 2.4,
+        "enable_openloop_prediction": true,
+        "desire_velocity": 0.4,
+        "advanced_time_for_keep_lane_plan": 0.05
+      },
+      {
+        "id": 2,
+        "type": "car",
+        "obstacle_map_meta_info": {
+          "width": 50,
+          "height": 50,
+          "resolution": 0.2
+        },
+        "surrounding_search_radius": 2.4,
+        "enable_openloop_prediction": true,
+        "desire_velocity": 0.4,
+        "advanced_time_for_keep_lane_plan": 0.05
+      },
+      {
+        "id": 3,
+        "type": "car",
+        "obstacle_map_meta_info": {
+          "width": 50,
+          "height": 50,
+          "resolution": 0.2
+        },
+        "surrounding_search_radius": 2.4,
+        "enable_openloop_prediction": true,
+        "desire_velocity": 0.6,
+        "advanced_time_for_keep_lane_plan": 0.05
+      }
+    ],
+    "__COMMENT": "[AgentConfig] - END"
+  }
+}

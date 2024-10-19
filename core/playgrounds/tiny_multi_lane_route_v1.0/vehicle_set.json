@@ -1,0 +1,61 @@
+{
+  "vehicles": {
+    "_COMMENT": "[Vehicles info] - START",
+    "__COMMENT": "Vehicle Subclass: car, van, truck.",
+    "___COMMENT": "Vehicle Type: co_agv, nco_agv",
+    "num": 4,
+    "info": [
+      {
+        "id": 0,
+        "subclass": "car",
+        "type": "co_agv",
+        "ready_change_lane": true,
+        "init_state": {
+          "x": 0, 
+          "y": 0,
+          "angle": 0,
+          "curvature": 0.0,
+          "velocity": 0.4,
+          "acceleration": 0.0,
+          "steer": 0.0
+        },
+        "params": {
+          "width": 0.20,
+          "length": 0.5,
+          "wheel_base": 0.05,
+          "front_suspension": 0.1,
+          "rear_suspension": 0.10,
+          "max_steering_angle": 80.0,
+          "max_longitudinal_acc": 0.4,
+          "max_lateral_acc": 0.4
+        }
+      },
+      {
+        "id": 1,
+        "subclass": "car",
+        "type": "co_agv",
+        "ready_change_lane": true,
+        "init_state": {
+          "x": -5, 
+          "y": 0,
+          "angle": 0,
+          "curvature": 0.0,
+          "velocity": 0.4,
+          "acceleration": 0.0,
+          "steer": 0.0
+        },
+        "params": {
+          "width": 0.20,
+          "length": 0.5,
+          "wheel_base": 0.05,
+          "front_suspension": 0.1,
+          "rear_suspension": 0.10,
+          "max_steering_angle": 80.0,
+          "max_longitudinal_acc": 0.4,
+          "max_lateral_acc": 0.4
+        }
+      }
+    ],
+    "COMMENT_": "[Vehicles info] - END"
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "vehicles": {
+    "_COMMENT": "[Vehicles info] - START",
+    "__COMMENT": "Vehicle Subclass: car, van, truck.",
+    "___COMMENT": "Vehicle Type: co_agv, nco_agv",
+    "num": 4,
+    "info": [
+      {
+        "id": 0,
+        "subclass": "car",
+        "type": "co_agv",
+        "ready_change_lane": true,
+        "init_state": {
+          "x": -1, 
+          "y": 0.0,
+          "angle": 0.0,
+          "curvature": 0.0,
+          "velocity": 0.0,
+          "acceleration": 0.0,
+          "steer": 0.0
+        },
+        "params": {
+          "width": 0.3,
+          "length": 0.4,
+          "wheel_base": 0.05,
+          "front_suspension": 0.05,
+          "rear_suspension": 0.05,
+          "max_steering_angle": 5.0,
+          "max_longitudinal_acc": 0.05,
+          "max_lateral_acc": 0.04
+        }
+      },
+      {
+        "id": 1,
+        "subclass": "car",
+        "type": "co_agv2",
+        "ready_change_lane": true,
+        "init_state": {
+          "x": -2, 
+          "y": 0.0,
+          "angle": 0.0,
+          "curvature": 0.0,
+          "velocity": 0.0,
+          "acceleration": 0.0,
+          "steer": 0.0
+        },
+        "params": {
+          "width": 0.3,
+          "length": 0.4,
+          "wheel_base": 0.05,
+          "front_suspension": 0.05,
+          "rear_suspension": 0.05,
+          "max_steering_angle": 5.0,
+          "max_longitudinal_acc": 0.05,
+          "max_lateral_acc": 0.04
+        }
+      },
+      {
+        "id": 2,
+        "subclass": "car",
+        "type": "nco_agv",
+        "ready_change_lane": false,
+        "init_state": {
+          "x": 9, 
+          "y": 0.0,
+          "angle": 3.14,
+          "curvature": 0.0,
+          "velocity": 0.0,
+          "acceleration": 0.0,
+          "steer": 0.0
+        },
+        "params": {
+          "width": 0.3,
+          "length": 0.4,
+          "wheel_base": 0.05,
+          "front_suspension": 0.05,
+          "rear_suspension": 0.05,
+          "max_steering_angle": 5.0,
+          "max_longitudinal_acc": 0.05,
+          "max_lateral_acc": 0.04
+        }
+      }
+    ],
+    "COMMENT_": "[Vehicles info] - END"
+  }
+}

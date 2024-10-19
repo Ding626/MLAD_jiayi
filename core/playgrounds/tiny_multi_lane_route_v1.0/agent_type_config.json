@@ -1,0 +1,86 @@
+{
+  "agent_config": {
+    "_COMMENT": "[AgentConfig] - START",
+    "num": 5,
+    "ego_type": "co_agv",
+    "info": [
+      {
+        "type_id": 0,
+        "type": "co_agv",
+        "obstacle_map_meta_info": {
+          "width": 200,
+          "height": 300,
+          "resolution": 0.2
+        },
+        "surrounding_search_radius": 30.0,
+        "enable_openloop_prediction": true,
+        "enable_fast_lane_lut": true,
+        "desire_velocity": 0.45,
+        "max_num": 5,
+        "advanced_time_for_keep_lane_plan": 0.05
+      },
+      {
+        "type_id": 1,
+        "type": "co_agv2",
+        "obstacle_map_meta_info": {
+          "width": 200,
+          "height": 300,
+          "resolution": 0.2
+        },
+        "surrounding_search_radius": 30.0,
+        "enable_openloop_prediction": true,
+        "enable_fast_lane_lut": true,
+        "desire_velocity": 0.5,
+        "max_num": 5,
+        "advanced_time_for_keep_lane_plan": 0.05
+      },
+      {
+        "type_id": 2,
+        "type": "co_agv3",
+        "obstacle_map_meta_info": {
+          "width": 300,
+          "height": 300,
+          "resolution": 0.2
+        },
+        "surrounding_search_radius": 30.0,
+        "enable_openloop_prediction": true,
+        "enable_fast_lane_lut": true,
+        "desire_velocity": 0.45,
+        "max_num": 5,
+        "advanced_time_for_keep_lane_plan": 0.05
+      },
+      {
+        "type_id": 3,
+        "type": "co_agv4",
+        "obstacle_map_meta_info": {
+          "width": 300,
+          "height": 300,
+          "resolution": 0.2
+        },
+        "surrounding_search_radius": 30.0,
+        "enable_openloop_prediction": true,
+        "enable_fast_lane_lut": true,
+        "desire_velocity": 0.45,
+        "max_num": 3,
+        "advanced_time_for_keep_lane_plan": 0.05
+      },
+      {
+        "type_id": 4,
+        "type": "nco_agv",
+        "obstacle_map_meta_info": {
+          "width": 700,
+          "height": 700,
+          "resolution": 0.5
+        },
+        "surrounding_search_radius": 150.0,
+        "enable_openloop_prediction": false,
+        "enable_fast_lane_lut": false,
+        "desire_velocity": 0.5,
+        "max_num": 3
+      }
+    ],
+    "log_file": "/home/pc/MLAD/src/Log",
+    "enable_log": true,
+    "__COMMENT": "[AgentConfig] - END"
+  }
+}

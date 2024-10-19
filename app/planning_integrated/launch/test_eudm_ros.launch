@@ -1,0 +1,39 @@
+<launch>
+  <arg name="arena_info_static_topic" value="/arena_info_static" />
+  <arg name="arena_info_dynamic_topic" value="/arena_info_dynamic" />
+
+  <arg name="ctrl_topic" value="/ctrl/agent_0" />
+  <arg name="task_info" value="/task_info" />
+  <!-- <arg name="playground" value = "multi_lane_route_v1.0" /> -->
+  <!-- <arg name="playground" value = "tiny_multi_lane_route_v1.0" /> -->
+  <!-- <arg name="playground" value = "tiny_multi_lane_route_v2.0" /> -->
+  <!-- <arg name="playground" value = "tiny_multi_lane_route_v3.0" /> -->
+  <!-- <arg name="playground" value = "tiny_multi_lane_route_v4.0" /> -->
+  <!-- <arg name="playground" value = "tiny_multi_lane_route_v5.0" /> -->
+  <!-- <arg name="playground" value = "ring_tiny_v1.0" /> -->
+  <!-- <arg name="playground" value = "ring_small_v1.0" /> -->
+  <!-- <arg name="playground" value = "avoidance_demo_v1.0" /> -->
+  <!-- <arg name="playground" value = "avoidance_demo_v2.0" /> -->
+  <!-- <arg name="playground" value = "lane_change_v1.0" /> --> 
+  <!-- <arg name="playground" value = "flow_control_v1.0" /> -->
+  <!-- <arg name="playground" value = "flow_control_v2.0" /> -->
+  <!-- <arg name="playground" value = "701_uc1" /> -->
+  <arg name="playground" value = "701_uc3" />
+  
+
+  <node pkg="planning_integrated"
+        type="test_eudm"
+        name="test_eudm_0"
+        output="screen">
+    <param name="uncertain_avoidance_replan_interval" type="double" value="0.5" />
+    <param name="change_lane_threshold" type="double" value="0.0" />
+    <param name="max_wait_update_time" type="double" value="0.15" />
+    <param name="agent_config_path" type="string" value="$(find playgrounds)/$(arg playground)/agent_type_config.json" />
+    <param name="lane_net_path" type="string" value="$(find playgrounds)/$(arg playground)/lane_net_norm.json" />
+    <param name="bp_config_path" type="string" value="$(find eudm_planner)/config/eudm_config.pb.txt" />
+    <remap from="~arena_info_static" to="$(arg arena_info_static_topic)"/>
+    <remap from="~arena_info_dynamic" to="$(arg arena_info_dynamic_topic)"/>
+    <remap from="~ctrl" to="$(arg ctrl_topic)"/>
+    <remap from="~task_info" to="$(arg task_info)"/>
+  </node>
+</launch>

@@ -1,0 +1,28 @@
+<launch>
+  <arg name="arena_info_static_topic" value="/arena_info_static" />
+  <arg name="arena_info_dynamic_topic" value="/arena_info_dynamic" />
+
+  <include file="$(find phy_simulator)/launch/joy_ctrl.launch"/>
+
+  <!-- <arg name="playground" value = "multi_lane_route_v1.0" /> -->
+  <!-- <arg name="playground" value = "tiny_multi_lane_route_v1.0" /> -->
+  <!-- <arg name="playground" value = "tiny_multi_lane_route_v2.0" /> -->
+  <!-- <arg name="playground" value = "tiny_multi_lane_route_v3.0" /> -->
+  <!-- <arg name="playground" value = "tiny_multi_lane_route_v4.0" /> -->
+  <!-- <arg name="playground" value = "tiny_multi_lane_route_v5.0" /> -->
+  <!-- <arg name="playground" value = "avoidance_demo_v1.0" /> -->
+  <!-- <arg name="playground" value = "avoidance_demo_v2.0" /> -->
+  <!-- <arg name="playground" value = "lane_change_v1.0" /> -->
+  <!-- <arg name="playground" value = "flow_control_v1.0" /> -->
+  <!-- <arg name="playground" value = "flow_control_v2.0" /> -->
+  <!-- <arg name="playground" value = "701_uc1" /> -->
+  <arg name="playground" value = "701_uc3" />
+
+  <node pkg="phy_simulator" name="phy_simulator_planning_node" type="phy_simulator_planning_node" output="screen">
+    <param name="vehicle_info_path" type="string" value="$(find playgrounds)/$(arg playground)/vehicle_set.json" />
+    <param name="map_path" type="string" value="$(find playgrounds)/$(arg playground)/obstacles_norm.json" />
+    <param name="lane_net_path" type="string" value="$(find playgrounds)/$(arg playground)/lane_net_norm.json" />
+    <remap from="~arena_info_static" to="$(arg arena_info_static_topic)"/>
+    <remap from="~arena_info_dynamic" to="$(arg arena_info_dynamic_topic)"/>
+  </node>
+</launch>

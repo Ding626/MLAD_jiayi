@@ -1,0 +1,9 @@
+Header header
+std_msgs/Int32 id
+std_msgs/String subclass
+std_msgs/String type
+std_msgs/String name
+VehicleParam param
+State state
+bool ready_change_lane
+std_msgs/Int32 intent
