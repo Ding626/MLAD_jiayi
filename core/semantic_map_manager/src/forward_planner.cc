@@ -33,14 +33,14 @@ namespace semantic_map_manager
         behavior_.surround_trajs.push_back(surround_trajs_[winner_id_]);
       }
       
-      LOG(ERROR) << "[MPDM]MPDM desired velocity " << behavior_.actual_desired_velocity 
-                << " in " << reference_desired_velocity_;
-      LOG(ERROR) << "[MPDM]Time multi behavior judged in " << timer.toc() << " ms.";
+      //LOG(ERROR) << "[MPDM]MPDM desired velocity " << behavior_.actual_desired_velocity 
+       //         << " in " << reference_desired_velocity_;
+      //LOG(ERROR) << "[MPDM]Time multi behavior judged in " << timer.toc() << " ms.";
     }
     else
     {
-      LOG(ERROR) << "[MPDM]MPDM failed.";
-      LOG(ERROR) << "[MPDM]Time multi behavior judged in " << timer.toc() << " ms.";
+      //LOG(ERROR) << "[MPDM]MPDM failed.";
+      //LOG(ERROR) << "[MPDM]Time multi behavior judged in " << timer.toc() << " ms.";
       return kWrongStatus;
     }
     return kSuccess;
@@ -66,7 +66,7 @@ namespace semantic_map_manager
     openloop_pred_trajs_ = openloop_pred_trajs;
 
     UpdateEgoLaneId(ego_lane_id_by_pos);
-    LOG(INFO) << "[MPDM]ego lane id: " << ego_lane_id_;
+    // LOG(INFO) << "[MPDM]ego lane id: " << ego_lane_id_;
 
     behavior_.lat_behavior = common::LateralBehavior::kLaneKeeping;
 
@@ -79,13 +79,13 @@ namespace semantic_map_manager
     planning::MultiModalForward::ParamLookUp(aggressive_level, &sim_param_);
     if (RunMpdm() != kSuccess)
     {
-      LOG(ERROR) << "[Summary]Mpdm failed: " << timer.toc() << " ms.";
+      //LOG(ERROR) << "[Summary]Mpdm failed: " << timer.toc() << " ms.";
       // printf("[Stuck]Ego id %d on lane %d with behavior %d mpdm failed.\n",
       //        ego_vehicle.id(), ego_lane_id_,
       //        static_cast<int>(behavior_.lat_behavior));
       return kWrongStatus;
     }
-    LOG(ERROR) << "[Summary]Mpdm time cost: " << timer.toc() << " ms.";
+    //LOG(ERROR) << "[Summary]Mpdm time cost: " << timer.toc() << " ms.";
     std::ostringstream line_info;
     line_info << "[MPDM]selected forward traj: <stamp,x,y,theta,vec,acc,steer,curv>";
     decimal_t stamp = forward_trajs_[winner_id_].front().state().time_stamp;
@@ -96,7 +96,7 @@ namespace semantic_map_manager
                 << v.state().velocity << "," << v.state().acceleration << "," 
                 << v.state().steer << "," << v.state().curvature << ">";
     }
-    LOG(WARNING) << line_info.str();
+    //LOG(WARNING) << line_info.str();
 
     behavior->lat_behavior = behavior_.lat_behavior;
     behavior->actual_desired_velocity = behavior_.actual_desired_velocity;
@@ -112,9 +112,9 @@ namespace semantic_map_manager
       decimal_t *mpdm_desired_velocity)
   {
 
-    LOG(INFO) << "[ForwardPlanner]" << ego_vehicle_.id()
-              << "\tsemantic_vehicle_set num:"
-              << semantic_vehicle_set_.semantic_vehicles.size();
+    // LOG(INFO) << "[ForwardPlanner]" << ego_vehicle_.id()
+    //           << "\tsemantic_vehicle_set num:"
+    //           << semantic_vehicle_set_.semantic_vehicles.size();
 
     // * clean the states
     forward_trajs_.clear();
@@ -142,7 +142,7 @@ namespace semantic_map_manager
                               semantic_vehicle_set_, &traj,
                               &sur_trajs) != kSuccess)
       {
-        LOG(ERROR) <<"[MPDM]fail to sim " << DcpTree::RetLonActionName(potential_behaviors[i]) << " forward.\n";
+        //LOG(ERROR) <<"[MPDM]fail to sim " << DcpTree::RetLonActionName(potential_behaviors[i]) << " forward.\n";
         continue;
       }
       valid_behaviors.push_back(potential_behaviors[i]);
@@ -156,7 +156,7 @@ namespace semantic_map_manager
     int num_valid_behaviors = static_cast<int>(valid_behaviors.size());
     if (num_valid_behaviors < 1)
     {
-      LOG(ERROR) << "[MPDM]No valid behaviors";
+      //LOG(ERROR) << "[MPDM]No valid behaviors";
       return kWrongStatus;
     }
 
@@ -165,7 +165,7 @@ namespace semantic_map_manager
                                  valid_surround_trajs, &winner_id_, &winner_score,
                                  &winner_desired_vel) != kSuccess)
     {
-      LOG(ERROR) << "[MPDM]fail to evaluate multiple policy trajs.";
+      //LOG(ERROR) << "[MPDM]fail to evaluate multiple policy trajs.";
       return kWrongStatus;
     }
     
@@ -294,7 +294,7 @@ namespace semantic_map_manager
         break;
       }
       default: {
-        LOG(ERROR) << "[Eudm]Error - Lon action not valid";
+        //LOG(ERROR) << "[Eudm]Error - Lon action not valid";
         assert(false);
       }
     }
@@ -310,22 +310,22 @@ namespace semantic_map_manager
         std::make_pair(ego_vehicle.id(), ego_semantic_vehicle));
 
     // ~ multi-agent forward
-    LOG(ERROR) << "[MPDM]simulating behavior " << DcpTree::RetLonActionName(ego_behavior);
+    //LOG(ERROR) << "[MPDM]simulating behavior " << DcpTree::RetLonActionName(ego_behavior);
     if (MultiAgentSimForward(ego_vehicle.id(), semantic_vehicle_set_tmp, ego_sim_param, traj,
                              surround_trajs) != kSuccess)
     {
-      LOG(ERROR) << "[MPDM]multi agent forward under " << DcpTree::RetLonActionName(ego_behavior)
-                  << " failed.";
+      //LOG(ERROR) << "[MPDM]multi agent forward under " << DcpTree::RetLonActionName(ego_behavior)
+      //            << " failed.";
       if (OpenloopSimForward(ego_semantic_vehicle, semantic_vehicle_set, ego_sim_param, traj,
                              surround_trajs) != kSuccess)
       {
-        LOG(ERROR) << "[MPDM]open loop forward under " << DcpTree::RetLonActionName(ego_behavior)
-                  << " failed.";
+        //LOG(ERROR) << "[MPDM]open loop forward under " << DcpTree::RetLonActionName(ego_behavior)
+        //          << " failed.";
         return kWrongStatus;
       }
     }
-    LOG(ERROR) << "[MPDM]behavior " << DcpTree::RetLonActionName(ego_behavior) 
-              << " traj num of states: " << static_cast<int>(traj->size());
+    //LOG(ERROR) << "[MPDM]behavior " << DcpTree::RetLonActionName(ego_behavior) 
+     //         << " traj num of states: " << static_cast<int>(traj->size());
     return kSuccess;
   }
 
@@ -361,8 +361,8 @@ namespace semantic_map_manager
         *winner_id = i;
       }
     }
-    LOG(ERROR) << "[MPDM]choose behavior " << DcpTree::RetLonActionName(behavior) 
-              << " with cost " << min_score;
+    //LOG(ERROR) << "[MPDM]choose behavior " << DcpTree::RetLonActionName(behavior) 
+       //       << " with cost " << min_score;
     *winner_score = min_score;
     *desired_vel = des_vel;
     return kSuccess;
@@ -501,8 +501,8 @@ namespace semantic_map_manager
     //     static_cast<int>(behavior), cost_action, cost_safety,
     //     cost_efficiency_ego_to_desired_vel,
     //     cost_efficiency_leading_to_desired_vel);
-    LOG(ERROR) << 
-        "[CostDebug]behaivor " << DcpTree::RetLonActionName(behavior) << ": cost " << all_cost;
+    //LOG(ERROR) << 
+     //   "[CostDebug]behaivor " << DcpTree::RetLonActionName(behavior) << ": cost " << all_cost;
     GetDesiredVelocityOfTrajectory(forward_traj, desired_vel);
     return kSuccess;
   }
@@ -599,7 +599,7 @@ namespace semantic_map_manager
                   leading_vehicle, sim_resolution_, ego_sim_param,
                   &state) != kSuccess)
           {
-            LOG(ERROR) << "[MPDM]fail to forward with leading vehicle.";
+            //LOG(ERROR) << "[MPDM]fail to forward with leading vehicle.";
             return kWrongStatus;
           }
         }
@@ -610,7 +610,7 @@ namespace semantic_map_manager
                   leading_vehicle, sim_resolution_, sim_param_,
                   &state) != kSuccess)
           {
-            LOG(ERROR) << "[MPDM]fail to forward with leading vehicle.";
+            //LOG(ERROR) << "[MPDM]fail to forward with leading vehicle.";
             return kWrongStatus;
           }
         }

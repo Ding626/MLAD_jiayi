@@ -35,7 +35,7 @@
     <remap from="~ctrl" to="$(arg ctrl_topic)$(arg id)"/>
   </node> -->
 
-  <node pkg="planning_integrated"
+  <!-- <node pkg="planning_integrated"
         type="test_ssc"
         name="test_ssc_0"
         output="screen">
@@ -47,9 +47,9 @@
     <remap from="~arena_info_static" to="$(arg arena_info_static_topic)"/>
     <remap from="~arena_info_dynamic" to="$(arg arena_info_dynamic_topic)"/>
     <remap from="~ctrl" to="$(arg ctrl_topic)0"/>
-  </node>
+  </node> -->
 
-  <node pkg="planning_integrated"
+  <!-- <node pkg="planning_integrated"
         type="test_ssc"
         name="test_ssc_1"
         output="screen">
@@ -61,7 +61,7 @@
     <remap from="~arena_info_static" to="$(arg arena_info_static_topic)"/>
     <remap from="~arena_info_dynamic" to="$(arg arena_info_dynamic_topic)"/>
     <remap from="~ctrl" to="$(arg ctrl_topic)1"/>
-  </node>
+  </node> -->
 
   <node pkg="planning_integrated"
         type="test_ssc"

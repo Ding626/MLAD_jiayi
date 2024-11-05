@@ -67,7 +67,7 @@ void SscVisualizer::VisualizeDataWithStamp(const ros::Time &stamp,
 void SscVisualizer::VisualizeQpTrajs(
     const ros::Time &stamp, const vec_E<common::BezierSpline<5, 2>> &trajs) {
   if (trajs.empty()) {
-    LOG(ERROR) << "[SscQP]No valid qp trajs.\n";
+    //LOG(ERROR) << "[SscQP]No valid qp trajs.\n";
     return;
   }
   int id = 0;

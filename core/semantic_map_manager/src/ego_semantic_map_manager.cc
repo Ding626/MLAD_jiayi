@@ -207,21 +207,21 @@ ErrorType EgoSemanticMapManager::NaiveRuleBasedLateralBehaviorPrediction(
         nearest_lane.l_lane_id != kInvalidLaneId &&
         nearest_lane.l_change_avbl) {
       prob_lcl = 1.0;
-      printf(
-          "[NaivePrediction]vehicle %d lane id %d, lat d %lf lat dd %lf, "
-          "behavior "
-          "lcl.\n",
-          vehicle.id(), nearest_lane_id, fs.vec_dt[0], fs.vec_dt[1]);
+      // printf(
+      //     "[NaivePrediction]vehicle %d lane id %d, lat d %lf lat dd %lf, "
+      //     "behavior "
+      //     "lcl.\n",
+      //     vehicle.id(), nearest_lane_id, fs.vec_dt[0], fs.vec_dt[1]);
     } else if (fs.vec_dt[0] < -lat_distance_threshold &&
                fs.vec_dt[1] < -lat_vel_threshold &&
                nearest_lane.r_lane_id != kInvalidLaneId &&
                nearest_lane.r_change_avbl) {
       prob_lcr = 1.0;
-      printf(
-          "[NaivePrediction]vehicle %d lane id %d, lat d %lf lat dd %lf, "
-          "behavior "
-          "lcr.\n",
-          vehicle.id(), nearest_lane_id, fs.vec_dt[0], fs.vec_dt[1]);
+      // printf(
+      //     "[NaivePrediction]vehicle %d lane id %d, lat d %lf lat dd %lf, "
+      //     "behavior "
+      //     "lcr.\n",
+      //     vehicle.id(), nearest_lane_id, fs.vec_dt[0], fs.vec_dt[1]);
     } else {
       prob_lk = 1.0;
     }
@@ -231,21 +231,21 @@ ErrorType EgoSemanticMapManager::NaiveRuleBasedLateralBehaviorPrediction(
         nearest_lane.r_lane_id != kInvalidLaneId &&
         nearest_lane.r_change_avbl) {
       prob_lcr = 1.0;
-      printf(
-          "[NaivePrediction]vehicle %d lane id %d, lat d %lf lat dd %lf, "
-          "behavior "
-          "lcr.\n",
-          vehicle.id(), nearest_lane_id, fs.vec_dt[0], fs.vec_dt[1]);
+      // printf(
+      //     "[NaivePrediction]vehicle %d lane id %d, lat d %lf lat dd %lf, "
+      //     "behavior "
+      //     "lcr.\n",
+      //     vehicle.id(), nearest_lane_id, fs.vec_dt[0], fs.vec_dt[1]);
     } else if (fs.vec_dt[0] < -lat_distance_threshold &&
                fs.vec_dt[1] < -lat_vel_threshold &&
                nearest_lane.l_lane_id != kInvalidLaneId &&
                nearest_lane.l_change_avbl) {
       prob_lcl = 1.0;
-      printf(
-          "[NaivePrediction]vehicle %d lane id %d, lat d %lf lat dd %lf, "
-          "behavior "
-          "lcl.\n",
-          vehicle.id(), nearest_lane_id, fs.vec_dt[0], fs.vec_dt[1]);
+      // printf(
+      //     "[NaivePrediction]vehicle %d lane id %d, lat d %lf lat dd %lf, "
+      //     "behavior "
+      //     "lcl.\n",
+      //     vehicle.id(), nearest_lane_id, fs.vec_dt[0], fs.vec_dt[1]);
     } else {
       prob_lk = 1.0;
     }
@@ -1795,13 +1795,13 @@ common::SemanticBehavior EgoSemanticMapManager::ego_behavior() {
 
   if (ReplanEgoBehavior(cur_behavior)) {
     // 需要重新规划出，保持车道的动作与轨迹
-    LOG(ERROR) << "[EgoSemanticMapManager::ego_behavior] Replan keep lane forward behavior.\n";
+    //LOG(ERROR) << "[EgoSemanticMapManager::ego_behavior] Replan keep lane forward behavior.\n";
     cur_behavior.lat_behavior = common::LateralBehavior::kLaneKeeping;
     // cur_behavior.actual_desired_velocity = agent_config_info_.desire_velocity;
     if (forward_kl_planner_.RunOnce(ego_vehicle_, current_lane_id, semantic_surrounding_vehicles_, 5,
                                    agent_config_info_.enable_openloop_prediction, semantic_lane_set_, 
                                    openloop_pred_trajs_, &cur_behavior) != kSuccess) {
-      LOG(ERROR) << "[EgoSemanticMapManager::ego_behavior] fail to get keep lane behavior.";
+      //LOG(ERROR) << "[EgoSemanticMapManager::ego_behavior] fail to get keep lane behavior.";
     }
 
     ego_behavior_ = cur_behavior;

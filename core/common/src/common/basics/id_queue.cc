@@ -14,14 +14,14 @@ bool PriorityIdQueue::Empty() {
 
 int PriorityIdQueue::Front() {
 	std::lock_guard<std::mutex> lock_guard(queue_mtx);
-	printf("[PriorityIdQueue::Front] get front id \n");
+	// printf("[PriorityIdQueue::Front] get front id \n");
 	if (id_queue.empty()) return -1;
 
 	if (update_flag) update_flag=false;
 	
 	int target_id = id_queue.front();
 	id_queue.pop();
-	printf("[PriorityIdQueue::Front] left %d\n", id_queue.size());
+	// printf("[PriorityIdQueue::Front] left %d\n", id_queue.size());
 	return target_id;
 }
 

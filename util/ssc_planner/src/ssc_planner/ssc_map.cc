@@ -158,7 +158,7 @@ ErrorType SscMap::ConstructCorridorUsingInitialTrajectory(
       common::AxisAlignedCubeNd<int, 3> cube;
       GetInitialCubeUsingSeed(traj_seeds[i], traj_seeds[i + 1], &cube);
       if (!CheckIfCubeIsFree(p_grid, cube)) {
-        LOG(ERROR) << "[Ssc] SccMap - Initial cube is not free, seed id: " << i;
+        //LOG(ERROR) << "[Ssc] SccMap - Initial cube is not free, seed id: " << i;
 
         common::DrivingCube driving_cube;
         driving_cube.cube = cube;
@@ -197,8 +197,8 @@ ErrorType SscMap::ConstructCorridorUsingInitialTrajectory(
         GetInitialCubeUsingSeed(traj_seeds[i], traj_seeds[i + 1], &cube);
 
         if (!CheckIfCubeIsFree(p_grid, cube)) {
-          LOG(ERROR) << "[Ssc] SccMap - Initial cube is not free, seed id: "
-                     << i;
+          //LOG(ERROR) << "[Ssc] SccMap - Initial cube is not free, seed id: "
+          //           << i;
           common::DrivingCube driving_cube;
           driving_cube.cube = cube;
           driving_cube.seeds.push_back(traj_seeds[i]);
@@ -687,9 +687,9 @@ ErrorType SscMap::GetFinalGlobalMetricCubesList() {
 
         if (k == 0) {
           if (y_lb > initial_fs_.vec_dt[0] || y_ub < initial_fs_.vec_dt[0]) {
-            LOG(ERROR) << "[Ssc] SscMap - Initial state out of bound d: "
-                       << initial_fs_.vec_dt[0] << ", lb: " << y_lb
-                       << ", ub: " << y_ub;
+            //LOG(ERROR) << "[Ssc] SscMap - Initial state out of bound d: "
+                      //  << initial_fs_.vec_dt[0] << ", lb: " << y_lb
+                      //  << ", ub: " << y_ub;
             // assert(false);
             return kWrongStatus;
           }
@@ -734,7 +734,7 @@ ErrorType SscMap::FillDynamicPart(
 ErrorType SscMap::FillMapWithFsVehicleTraj(
     const vec_E<common::FsVehicle> traj) {
   if (traj.size() == 0) {
-    LOG(ERROR) << "[Ssc] SscMap - Trajectory is empty.";
+    //LOG(ERROR) << "[Ssc] SscMap - Trajectory is empty.";
     return kWrongStatus;
   }
   for (int i = 0; i < static_cast<int>(traj.size()); ++i) {

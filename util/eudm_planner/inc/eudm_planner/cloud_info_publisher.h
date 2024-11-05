@@ -64,8 +64,8 @@ class EudmPlannerPublisher {
         
       // key_ids_.push_back(vehicle_id);
     }
-    LOG(ERROR) << "[EudmPlannerPublisher::PublishDataWithStamp] publish msg: " << info.behavior.actual_desired_velocity 
-               << " for vehicle: " << vehicle_id;
+    //LOG(ERROR) << "[EudmPlannerPublisher::PublishDataWithStamp] publish msg: " << info.behavior.actual_desired_velocity 
+           //    << " for vehicle: " << vehicle_id;
     info.header.stamp = stamp;
 
     

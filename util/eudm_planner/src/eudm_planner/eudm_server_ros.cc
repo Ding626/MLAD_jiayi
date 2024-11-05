@@ -139,32 +139,32 @@ void EudmPlannerServer::PlanCycleCallback() {
   // TODO for MLAD: 首先调用smm，判断此agv是否需要变道，若不需要，则跳过，否则生成task
 
   task.is_under_ctrl = true;
-  LOG(ERROR) << "[EudmPlannerServer::PlanCycleCallback] cur_ego_id:" << cur_ego_id;
+  //LOG(ERROR) << "[EudmPlannerServer::PlanCycleCallback] cur_ego_id:" << cur_ego_id;
   // if (!smm_->GetSpecVehicleCurrentTask(cur_ego_id, &task)) {
   //   // 不需要变道
-  //   LOG(ERROR) << "[EudmPlannerServer::PlanCycleCallback] no task";
+  //   //LOG(ERROR) << "[EudmPlannerServer::PlanCycleCallback] no task";
   //   PublishData();
   //   return;
   // }
   if (!smm_->GetSpecVehicleCurrentTaskfromMsg(cur_ego_id, &task)) {
     // 不需要变道
-    LOG(ERROR) << "[EudmPlannerServer::PlanCycleCallback] no task";
+    //LOG(ERROR) << "[EudmPlannerServer::PlanCycleCallback] no task";
     PublishData();
     return;
   }
-  LOG(ERROR) << "[EudmPlannerServer::PlanCycleCallback] task.user_perferred_behavior:"  << task.user_perferred_behavior;
+  //LOG(ERROR) << "[EudmPlannerServer::PlanCycleCallback] task.user_perferred_behavior:"  << task.user_perferred_behavior;
   decimal_t replan_duration = 1.0 / work_rate_;
   double stamp = std::floor(smm_->time_stamp() / replan_duration) * replan_duration;
-  LOG(ERROR) << "[EudmPlannerServer::PlanCycleCallback] stamp: " << stamp;
+  //LOG(ERROR) << "[EudmPlannerServer::PlanCycleCallback] stamp: " << stamp;
   
   if (bp_manager_.GetCurEgoVehicleLastConfigs(cur_ego_id) != kSuccess) {
-    LOG(ERROR) << "[PlanCycleCallback] GetCurEgoVehicleLastConfigs fail.";
+    //LOG(ERROR) << "[PlanCycleCallback] GetCurEgoVehicleLastConfigs fail.";
     return;
   }
   // TODO for MLAD: 在下面使用行为规划，对指定agv进行规划，并生成对应的msg。在这里进行加锁？需要验证动作接收后，agv是否完成变道且在缓冲区外，若进入缓冲区，则取消本次任务
   if (bp_manager_.Run(stamp, cur_ego_id, task) == kSuccess) {
-    LOG(ERROR) << "[EudmPlannerServer::PlanCycleCallback] bp_manager_.Run(stamp, cur_ego_id, task):"  << task.target_lane_id;
-    LOG(ERROR) << "[EudmPlannerServer::PlanCycleCallback] bp_manager_.Run(stamp, cur_ego_id, task):"  << task.user_perferred_behavior;
+    //LOG(ERROR) << "[EudmPlannerServer::PlanCycleCallback] bp_manager_.Run(stamp, cur_ego_id, task):"  << task.target_lane_id;
+    //LOG(ERROR) << "[EudmPlannerServer::PlanCycleCallback] bp_manager_.Run(stamp, cur_ego_id, task):"  << task.user_perferred_behavior;
     common::SemanticBehavior behavior;
     bp_manager_.ConstructBehavior(&behavior);
 
@@ -172,19 +172,19 @@ void EudmPlannerServer::PlanCycleCallback() {
     vehicle_msgs::CloudInfo msg;
     if (bp_manager_.GetCloudInfoMsg(cur_ego_id, behavior, &msg) == kSuccess) {
       p_cloud_info_pubs_->PublishDataWithStamp(ros::Time::now(), cur_ego_id, msg);
-      LOG(ERROR) << "[PlanCycleCallback] sending data.";
+      //LOG(ERROR) << "[PlanCycleCallback] sending data.";
       
       bool wait_reply = true, behavior_confirm = false;
       while (true) {
         if (smm_->GetSpecEgoVehicleReplyComplete(cur_ego_id, &wait_reply, &behavior_confirm) != kSuccess) {
-          LOG(ERROR) << "[PlanCycleCallback] get behavior reply failed.";
+          //LOG(ERROR) << "[PlanCycleCallback] get behavior reply failed.";
           return;
         }
         if (!wait_reply) break;
       }
-      LOG(ERROR) << "[PlanCycleCallback] end waiting for reply.";
+      //LOG(ERROR) << "[PlanCycleCallback] end waiting for reply.";
       if (behavior_confirm) {
-        LOG(ERROR) << "[PlanCycleCallback] behavior reply confirm. Write back to smm.";
+        //LOG(ERROR) << "[PlanCycleCallback] behavior reply confirm. Write back to smm.";
          // 确认agv接收到后，需要将当前的behavior以及agv反馈的轨迹，写入到smm中
         bp_manager_.UpdateCurEgoVehicleConfigsAfterPlanning(cur_ego_id);
         smm_->UpdateSpecEgoVehicleNextTask(cur_ego_id, task);

@@ -21,9 +21,9 @@ void EudmManager::Init(const std::string& config_path,
   bp_.set_map_interface(&map_adapter_);
   work_rate_ = work_rate;
   if (bp_.cfg().function().active_lc_enable()) {
-    LOG(ERROR) << "[HMI]HMI enabled with active lane change ON.";
+    //LOG(ERROR) << "[HMI]HMI enabled with active lane change ON.";
   } else {
-    LOG(ERROR) << "[HMI]HMI enabled with active lane change OFF.";
+    //LOG(ERROR) << "[HMI]HMI enabled with active lane change OFF.";
   }
 }
 
@@ -87,7 +87,7 @@ ErrorType EudmManager::GetCurEgoVehicleLastConfigs(const int &cur_ego_id) {
     line_info << "[Eudm][Manager] Get last ReplanningContext for vehicle "
               << cur_ego_id
               << " failed.";
-    LOG(WARNING) << line_info.str();
+    //LOG(WARNING) << line_info.str();
     return kWrongStatus;
   }
 
@@ -96,7 +96,7 @@ ErrorType EudmManager::GetCurEgoVehicleLastConfigs(const int &cur_ego_id) {
     line_info << "[Eudm][Manager] Get last task for vehicle "
               << cur_ego_id
               << " failed.";
-    LOG(WARNING) << line_info.str();
+    //LOG(WARNING) << line_info.str();
     return kWrongStatus;
   }
 
@@ -105,7 +105,7 @@ ErrorType EudmManager::GetCurEgoVehicleLastConfigs(const int &cur_ego_id) {
     line_info << "[Eudm][Manager] Get last Snapshot for vehicle "
               << cur_ego_id
               << " failed.";
-    LOG(WARNING) << line_info.str();
+    //LOG(WARNING) << line_info.str();
     return kWrongStatus;
   }
 
@@ -114,7 +114,7 @@ ErrorType EudmManager::GetCurEgoVehicleLastConfigs(const int &cur_ego_id) {
     line_info << "[Eudm][Manager] Get last LaneChangeProposal for vehicle "
               << cur_ego_id
               << " failed.";
-    LOG(WARNING) << line_info.str();
+    //LOG(WARNING) << line_info.str();
     return kWrongStatus;
   }
 
@@ -123,7 +123,7 @@ ErrorType EudmManager::GetCurEgoVehicleLastConfigs(const int &cur_ego_id) {
     line_info << "[Eudm][Manager] Get last PreliminaryActiveRequests for vehicle "
               << cur_ego_id
               << " failed.";
-    LOG(WARNING) << line_info.str();
+    //LOG(WARNING) << line_info.str();
     return kWrongStatus;
   }
 
@@ -132,7 +132,7 @@ ErrorType EudmManager::GetCurEgoVehicleLastConfigs(const int &cur_ego_id) {
     line_info << "[Eudm][Manager] Get last LaneChangeContext for vehicle "
               << cur_ego_id
               << " failed.";
-    LOG(WARNING) << line_info.str();
+    //LOG(WARNING) << line_info.str();
     return kWrongStatus;
   }
 
@@ -150,14 +150,14 @@ ErrorType EudmManager::Prepare(
     decimal_t fdp_stamp = GetNearestFutureDecisionPoint(stamp, 0.0);
     desired_action.t = fdp_stamp - stamp;
   }
-  LOG(ERROR) << "[Eudm][Manager] desired_action.lat: " << DcpTree::RetLatActionName(desired_action.lat);
+  //LOG(ERROR) << "[Eudm][Manager] desired_action.lat: " << DcpTree::RetLatActionName(desired_action.lat);
 
   if (map_adapter_.map().GetEgoNearestLaneId(&ego_lane_id_) != kSuccess) {
     return kWrongStatus;
   }
-  LOG(ERROR) << "[Eudm][Manager] dGetEgoNearestLaneId " << ego_lane_id_;
+  //LOG(ERROR) << "[Eudm][Manager] dGetEgoNearestLaneId " << ego_lane_id_;
   UpdateLaneChangeContextByTask(stamp, task);
-  LOG(ERROR) << "[Eudm][Manager] lc_context_.completed " << lc_context_.completed;
+  //LOG(ERROR) << "[Eudm][Manager] lc_context_.completed " << lc_context_.completed;
   if (lc_context_.completed) {
     desired_action.lat = DcpLatAction::kLaneKeeping;
   }
@@ -175,7 +175,7 @@ ErrorType EudmManager::Prepare(
       line_info << DcpTree::RetLatActionName(a.lat);
     }
     line_info << ">";
-    LOG(WARNING) << line_info.str();
+    //LOG(WARNING) << line_info.str();
   }
   {
     std::ostringstream line_info;
@@ -188,15 +188,15 @@ ErrorType EudmManager::Prepare(
               << lc_context_.ego_lane_id << ","
               << common::SemanticsUtils::RetLatBehaviorName(lc_context_.lat)
               << "," << static_cast<int>(lc_context_.type) << ">";
-    LOG(WARNING) << line_info.str();
+    //LOG(WARNING) << line_info.str();
   }
 
   bp_.UpdateDcpTree(desired_action);
   
   decimal_t ref_vel;
   EvaluateReferenceVelocity(task, &ref_vel);
-  LOG(WARNING) << "[Eudm][Manager]<task vel, ref_vel>:<"
-               << task.user_desired_vel << "," << ref_vel << ">";
+  //LOG(WARNING) << "[Eudm][Manager]<task vel, ref_vel>:<"
+             //  << task.user_desired_vel << "," << ref_vel << ">";
   bp_.set_desired_velocity(ref_vel);
 
   auto lc_info = task.lc_info;
@@ -205,7 +205,7 @@ ErrorType EudmManager::Prepare(
     // TODO for MLAD: 若時間沒到desired_operation_time，仍然需要recommend_lc_left爲true
     // if (stamp >= lc_context_.desired_operation_time) {
     //   if (lc_context_.lat == LateralBehavior::kLaneChangeLeft) {
-    //     LOG(WARNING) << std::fixed << std::setprecision(5)
+    //     //LOG(WARNING) << std::fixed << std::setprecision(5)
     //                  << "[HMI]Recommending left at " << stamp
     //                  << " with desired time: "
     //                  << lc_context_.desired_operation_time;
@@ -215,10 +215,10 @@ ErrorType EudmManager::Prepare(
     //   }
     // }
     if (lc_context_.lat == LateralBehavior::kLaneChangeLeft) {
-      LOG(WARNING) << std::fixed << std::setprecision(5)
-                    << "[HMI]Recommending left at " << stamp
-                    << " with desired time: "
-                    << lc_context_.desired_operation_time;
+      //LOG(WARNING) << std::fixed << std::setprecision(5)
+                    // << "[HMI]Recommending left at " << stamp
+                    // << " with desired time: "
+                    // << lc_context_.desired_operation_time;
       lc_info.recommend_lc_left = true;
     } else if (lc_context_.lat == LateralBehavior::kLaneChangeRight) {
       lc_info.recommend_lc_right = true;
@@ -226,10 +226,10 @@ ErrorType EudmManager::Prepare(
   }
   bp_.set_lane_change_info(lc_info);
 
-  LOG(WARNING) << "[Eudm][Manager]desired <lon,lat,t>:<"
-               << DcpTree::RetLonActionName(desired_action.lon).c_str() << ","
-               << DcpTree::RetLatActionName(desired_action.lat) << ","
-               << desired_action.t << "> ego lane id:" << ego_lane_id_;
+  //LOG(WARNING) << "[Eudm][Manager]desired <lon,lat,t>:<"
+              //  << DcpTree::RetLonActionName(desired_action.lon).c_str() << ","
+              //  << DcpTree::RetLatActionName(desired_action.lat) << ","
+              //  << desired_action.t << "> ego lane id:" << ego_lane_id_;
 
   return kSuccess;
 }
@@ -238,34 +238,34 @@ ErrorType EudmManager::GenerateLaneChangeProposal(
     const decimal_t& stamp, const Task& task) {
   if (!bp_.cfg().function().active_lc_enable()) {
     preliminary_active_requests_.clear();
-    LOG(ERROR) << std::fixed << std::setprecision(5)
-                 << "[Eudm][ActiveLc]Clear request due to disabled lc:"
-                 << stamp;
+    //LOG(ERROR) << std::fixed << std::setprecision(5)
+                //  << "[Eudm][ActiveLc]Clear request due to disabled lc:"
+                //  << stamp;
     return kSuccess;
   }
 
   if (!task.is_under_ctrl) {
     preliminary_active_requests_.clear();
-    LOG(ERROR) << std::fixed << std::setprecision(5)
-                 << "[Eudm][ActiveLc]Clear request due to not under ctrl:"
-                 << stamp;
+    //LOG(ERROR) << std::fixed << std::setprecision(5)
+                //  << "[Eudm][ActiveLc]Clear request due to not under ctrl:"
+                //  << stamp;
     return kSuccess;
   }
 
   if (!lc_context_.completed) {
     preliminary_active_requests_.clear();
-    LOG(WARNING) << std::fixed << std::setprecision(5)
-                 << "[Eudm][ActiveLc]Clear request due to not completed lc:"
-                 << stamp;
+    //LOG(WARNING) << std::fixed << std::setprecision(5)
+                //  << "[Eudm][ActiveLc]Clear request due to not completed lc:"
+                //  << stamp;
     return kSuccess;
   }
 
   // if stick not reset, will not try active lane change
   if (lc_context_.completed && task.user_perferred_behavior != 0) {
     preliminary_active_requests_.clear();
-    LOG(WARNING) << std::fixed << std::setprecision(5)
-                 << "[Eudm][ActiveLc]Clear request due to stick not rest:"
-                 << stamp;
+    //LOG(WARNING) << std::fixed << std::setprecision(5)
+                //  << "[Eudm][ActiveLc]Clear request due to stick not rest:"
+                //  << stamp;
     return kSuccess;
   }
 
@@ -275,19 +275,19 @@ ErrorType EudmManager::GenerateLaneChangeProposal(
     last_lc_proposal_.ego_lane_id = ego_lane_id_;
     last_lc_proposal_.lat = LateralBehavior::kLaneKeeping;
     preliminary_active_requests_.clear();
-    LOG(WARNING) << std::fixed << std::setprecision(5)
-                 << "[Eudm][ActiveLc]Clear request due to illegal stamp:"
-                 << stamp;
+    //LOG(WARNING) << std::fixed << std::setprecision(5)
+                //  << "[Eudm][ActiveLc]Clear request due to illegal stamp:"
+                //  << stamp;
     return kSuccess;
   }
 
   if (stamp - last_lc_proposal_.trigger_time <
       bp_.cfg().function().active_lc().cold_duration()) {
     preliminary_active_requests_.clear();
-    LOG(WARNING) << std::fixed << std::setprecision(5)
-                 << "[Eudm][ActiveLc]Clear request due to cold down:" << stamp
-                 << " < " << last_lc_proposal_.trigger_time << " + "
-                 << bp_.cfg().function().active_lc().cold_duration();
+    //LOG(WARNING) << std::fixed << std::setprecision(5)
+                //  << "[Eudm][ActiveLc]Clear request due to cold down:" << stamp
+                //  << " < " << last_lc_proposal_.trigger_time << " + "
+                //  << bp_.cfg().function().active_lc().cold_duration();
     return kSuccess;
   }
 
@@ -296,9 +296,9 @@ ErrorType EudmManager::GenerateLaneChangeProposal(
       last_snapshot_.plan_state.velocity >
           bp_.cfg().function().active_lc().activate_speed_upper_bound()) {
     preliminary_active_requests_.clear();
-    LOG(WARNING) << std::fixed << std::setprecision(5)
-                 << "[Eudm][ActiveLc]Clear request due to illegal spd:"
-                 << last_snapshot_.plan_state.velocity << " at time " << stamp;
+    //LOG(WARNING) << std::fixed << std::setprecision(5)
+                //  << "[Eudm][ActiveLc]Clear request due to illegal spd:"
+                //  << last_snapshot_.plan_state.velocity << " at time " << stamp;
     return kSuccess;
   }
 
@@ -310,17 +310,17 @@ ErrorType EudmManager::GenerateLaneChangeProposal(
     auto last_request = preliminary_active_requests_.back();
     if (last_request.lat == LateralBehavior::kLaneChangeLeft &&
         task.lc_info.forbid_lane_change_left) {
-      LOG(WARNING) << std::fixed << std::setprecision(5)
-                   << "[Eudm][ActiveLc]Clear request due to forbid signal:"
-                   << stamp;
+      //LOG(WARNING) << std::fixed << std::setprecision(5)
+                  //  << "[Eudm][ActiveLc]Clear request due to forbid signal:"
+                  //  << stamp;
       preliminary_active_requests_.clear();
       return kSuccess;
     }
     if (last_request.lat == LateralBehavior::kLaneChangeRight &&
         task.lc_info.forbid_lane_change_right) {
-      LOG(WARNING) << std::fixed << std::setprecision(5)
-                   << "[Eudm][ActiveLc]Clear request due to forbid signal:"
-                   << stamp;
+      //LOG(WARNING) << std::fixed << std::setprecision(5)
+                  //  << "[Eudm][ActiveLc]Clear request due to forbid signal:"
+                  //  << stamp;
       preliminary_active_requests_.clear();
       return kSuccess;
     }
@@ -333,9 +333,9 @@ ErrorType EudmManager::GenerateLaneChangeProposal(
       last_snapshot_.action_script[last_snapshot_.original_winner_id],
       &operation_at_seconds, &lat_behavior, &is_cancel_behavior);
   if (lat_behavior == LateralBehavior::kLaneKeeping || is_cancel_behavior) {
-    LOG(WARNING) << std::fixed << std::setprecision(5)
-                 << "[Eudm][ActiveLc]Clear request due to not ideal behavior:"
-                 << stamp;
+    //LOG(WARNING) << std::fixed << std::setprecision(5)
+                //  << "[Eudm][ActiveLc]Clear request due to not ideal behavior:"
+                //  << stamp;
     preliminary_active_requests_.clear();
     return kSuccess;
   }
@@ -347,44 +347,44 @@ ErrorType EudmManager::GenerateLaneChangeProposal(
   this_request.lat = lat_behavior;
   if (preliminary_active_requests_.empty()) {
     preliminary_active_requests_.push_back(this_request);
-    LOG(WARNING) << std::fixed << std::setprecision(5)
-                 << "[Eudm][ActiveLc]trigger time:" << this_request.trigger_time
-                 << " Init requesting "
-                 << common::SemanticsUtils::RetLatBehaviorName(this_request.lat)
-                 << " at " << this_request.desired_operation_time
-                 << " with lane id " << this_request.ego_lane_id;
+    //LOG(WARNING) << std::fixed << std::setprecision(5)
+                //  << "[Eudm][ActiveLc]trigger time:" << this_request.trigger_time
+                //  << " Init requesting "
+                //  << common::SemanticsUtils::RetLatBehaviorName(this_request.lat)
+                //  << " at " << this_request.desired_operation_time
+                //  << " with lane id " << this_request.ego_lane_id;
   } else {
-    LOG(WARNING) << std::fixed << std::setprecision(5)
-                 << "[Eudm][ActiveLc]trigger time:" << this_request.trigger_time
-                 << " Consequent requesting "
-                 << common::SemanticsUtils::RetLatBehaviorName(this_request.lat)
-                 << " at " << this_request.desired_operation_time
-                 << " with lane id " << this_request.ego_lane_id;
+    //LOG(WARNING) << std::fixed << std::setprecision(5)
+                //  << "[Eudm][ActiveLc]trigger time:" << this_request.trigger_time
+                //  << " Consequent requesting "
+                //  << common::SemanticsUtils::RetLatBehaviorName(this_request.lat)
+                //  << " at " << this_request.desired_operation_time
+                //  << " with lane id " << this_request.ego_lane_id;
     auto last_request = preliminary_active_requests_.back();
     if (last_request.ego_lane_id != this_request.ego_lane_id) {
-      LOG(WARNING)
-          << "[Eudm][ActiveLc]Invalid this request due to lane id inconsitent.";
+      //LOG(WARNING)
+          // << "[Eudm][ActiveLc]Invalid this request due to lane id inconsitent.";
       preliminary_active_requests_.clear();
       return kSuccess;
     }
     if (last_request.lat != this_request.lat) {
-      LOG(WARNING) << "[Eudm][ActiveLc]Invalid this request due to behavior "
-                      "inconsitent.";
+      //LOG(WARNING) << "[Eudm][ActiveLc]Invalid this request due to behavior "
+                      // "inconsitent.";
       preliminary_active_requests_.clear();
       return kSuccess;
     }
     if (fabs(last_request.desired_operation_time -
              this_request.desired_operation_time) >
         bp_.cfg().function().active_lc().consistent_operate_time_min_gap()) {
-      LOG(WARNING)
-          << "[Eudm][ActiveLc]Invalid this request due to time inconsitent.";
+      //LOG(WARNING)
+          // << "[Eudm][ActiveLc]Invalid this request due to time inconsitent.";
       preliminary_active_requests_.clear();
       return kSuccess;
     }
     preliminary_active_requests_.push_back(this_request);
-    LOG(WARNING) << "[Eudm][ActiveLc]valid this request. Queue size "
-                 << preliminary_active_requests_.size() << " and operate at "
-                 << operation_at_seconds;
+    //LOG(WARNING) << "[Eudm][ActiveLc]valid this request. Queue size "
+                //  << preliminary_active_requests_.size() << " and operate at "
+                //  << operation_at_seconds;
   }
 
   if (preliminary_active_requests_.size() >=
@@ -409,15 +409,15 @@ ErrorType EudmManager::GenerateLaneChangeProposal(
       last_lc_proposal_.ego_lane_id = ego_lane_id_;
       last_lc_proposal_.lat = lat_behavior;
       preliminary_active_requests_.clear();
-      LOG(WARNING) << std::fixed << std::setprecision(5)
-                   << "[HMI]Gen proposal with trigger time "
-                   << last_lc_proposal_.trigger_time << " lane id "
-                   << last_lc_proposal_.ego_lane_id << " behavior "
-                   << static_cast<int>(last_lc_proposal_.lat) << " operate at "
-                   << last_lc_proposal_.operation_at_seconds;
+      //LOG(WARNING) << std::fixed << std::setprecision(5)
+                  //  << "[HMI]Gen proposal with trigger time "
+                  //  << last_lc_proposal_.trigger_time << " lane id "
+                  //  << last_lc_proposal_.ego_lane_id << " behavior "
+                  //  << static_cast<int>(last_lc_proposal_.lat) << " operate at "
+                  //  << last_lc_proposal_.operation_at_seconds;
     } else {
       preliminary_active_requests_.clear();
-      // LOG(ERROR) << "[HMI]Abandan Queue due to change time not legal.";
+      // //LOG(ERROR) << "[HMI]Abandan Queue due to change time not legal.";
     }
   }
 
@@ -427,16 +427,16 @@ ErrorType EudmManager::GenerateLaneChangeProposal(
 void EudmManager::UpdateLaneChangeContextByTask(const decimal_t stamp, const Task& task) {
   // TODO for MLAD: 這裏需要調整，不能直接取消任務
   // last_task_ = task;
-  LOG(WARNING) << "UpdateLaneChangeContextByTask:lc_context_.completed" << lc_context_.completed;
+  //LOG(WARNING) << "UpdateLaneChangeContextByTask:lc_context_.completed" << lc_context_.completed;
   if (!last_task_.is_under_ctrl && task.is_under_ctrl) {
-    LOG(WARNING) << "[HMI]Autonomous mode activated!";
+    //LOG(WARNING) << "[HMI]Autonomous mode activated!";
     lc_context_.completed = false;
     lc_context_.trigger_when_appropriate = false;
     last_lc_proposal_.trigger_time = stamp;
   }
 
   if (last_task_.is_under_ctrl && !task.is_under_ctrl) {
-    LOG(ERROR) << "[HMI]Autonomous mode deactivated!";
+    //LOG(ERROR) << "[HMI]Autonomous mode deactivated!";
     lc_context_.completed = false;
     lc_context_.trigger_when_appropriate = false;
     last_lc_proposal_.trigger_time = stamp;
@@ -445,8 +445,8 @@ void EudmManager::UpdateLaneChangeContextByTask(const decimal_t stamp, const Tas
   if (map_adapter_.map().GetEgoNearestLaneId(&ego_lane_id_) != kSuccess) {
     return;
   }
-  LOG(ERROR) << "task.target_lane_id." << task.target_lane_id;
-  LOG(ERROR) << "map_adapter_.map().GetEgoNearestLaneId(&ego_lane_id_))" << ego_lane_id_;  
+  //LOG(ERROR) << "task.target_lane_id." << task.target_lane_id;
+  //LOG(ERROR) << "map_adapter_.map().GetEgoNearestLaneId(&ego_lane_id_))" << ego_lane_id_;  
   if (task.target_lane_id != ego_lane_id_) {
 
     lc_context_.completed = true;
@@ -459,27 +459,27 @@ void EudmManager::UpdateLaneChangeContextByTask(const decimal_t stamp, const Tas
   //   lc_context_.trigger_when_appropriate = true;
   // }
   else{
-        LOG(WARNING) << "[HMI]already on target lane "
-                 << task.target_lane_id  << " to "
-                 << task.user_perferred_behavior;
+        //LOG(WARNING) << "[HMI]already on target lane "
+                //  << task.target_lane_id  << " to "
+                //  << task.user_perferred_behavior;
     lc_context_.completed = false;
     lc_context_.lat =  LateralBehavior::kLaneKeeping;
     lc_context_.trigger_when_appropriate = false;
   }
 
   if (task.user_perferred_behavior != last_task_.user_perferred_behavior) {
-    LOG(WARNING) << "[HMI]stick state change from "
-                 << last_task_.user_perferred_behavior << " to "
-                 << task.user_perferred_behavior;
+    //LOG(WARNING) << "[HMI]stick state change from "
+                //  << last_task_.user_perferred_behavior << " to "
+                //  << task.user_perferred_behavior;
   }
 
   if ((task.lc_info.forbid_lane_change_left !=
        last_task_.lc_info.forbid_lane_change_left) ||
       (task.lc_info.forbid_lane_change_right !=
        last_task_.lc_info.forbid_lane_change_right)) {
-    LOG(ERROR) << "[HMI]lane change forbid signal [left] "
-                 << task.lc_info.forbid_lane_change_left << " [right] "
-                 << task.lc_info.forbid_lane_change_right;
+  //   //LOG(ERROR) << "[HMI]lane change forbid signal [left] "
+  //                << task.lc_info.forbid_lane_change_left << " [right] "
+  //                << task.lc_info.forbid_lane_change_right;
   }
 
   if (task.is_under_ctrl) {
@@ -487,9 +487,9 @@ void EudmManager::UpdateLaneChangeContextByTask(const decimal_t stamp, const Tas
         && task.user_perferred_behavior != 0 
         && last_task_.user_perferred_behavior != 0) {
       // NOTE for MLAD: 上一個lc_context沒有完成，但是變道的方向變成另外一邊了，需要手動設置爲完成
-      LOG(WARNING) << "[HMI]directly finish lane change due to the different user_perferred_behavior from"
-                << last_task_.user_perferred_behavior << " to " << task.user_perferred_behavior
-                << " while last task was not completed ";
+      //LOG(WARNING) << "[HMI]directly finish lane change due to the different user_perferred_behavior from"
+                // << last_task_.user_perferred_behavior << " to " << task.user_perferred_behavior
+                // << " while last task was not completed ";
       // lc_context_.completed = true;
       lc_context_.trigger_when_appropriate = true;
       last_lc_proposal_.trigger_time = stamp;
@@ -501,9 +501,9 @@ void EudmManager::UpdateLaneChangeContextByTask(const decimal_t stamp, const Tas
     if (!lc_context_.completed) {
       if (!map_adapter_.IsLaneConsistent(lc_context_.ego_lane_id, ego_lane_id_)) {
         // in progress lane change and lane id change
-        LOG(WARNING) << "[HMI]lane change completed due to different lane id "
-                     << lc_context_.ego_lane_id << " to " << ego_lane_id_
-                     << ". Cd alc.";
+        //LOG(WARNING) << "[HMI]lane change completed due to different lane id "
+                    //  << lc_context_.ego_lane_id << " to " << ego_lane_id_
+                    //  << ". Cd alc.";
         lc_context_.completed = true;
         lc_context_.trigger_when_appropriate = false;
         last_lc_proposal_.trigger_time = stamp;
@@ -512,9 +512,9 @@ void EudmManager::UpdateLaneChangeContextByTask(const decimal_t stamp, const Tas
         if (task.user_perferred_behavior != 1 && 
             last_task_.user_perferred_behavior == 1) {
           // receive a lane cancel trigger
-          LOG(WARNING) << "[HMI]lane change cancel by stick "
-                       << last_task_.user_perferred_behavior << " to "
-                       << task.user_perferred_behavior << ". Cd alc.";
+          //LOG(WARNING) << "[HMI]lane change cancel by stick "
+                      //  << last_task_.user_perferred_behavior << " to "
+                      //  << task.user_perferred_behavior << ". Cd alc.";
           lc_context_.completed = true;
           lc_context_.trigger_when_appropriate = false;
           last_lc_proposal_.trigger_time = stamp;
@@ -522,9 +522,9 @@ void EudmManager::UpdateLaneChangeContextByTask(const decimal_t stamp, const Tas
         else if (task.user_perferred_behavior != -1 &&
                    last_task_.user_perferred_behavior == -1) {
           // receive a lane cancel trigger
-          LOG(WARNING) << "[HMI]lane change cancel by stick "
-                       << last_task_.user_perferred_behavior << " to "
-                       << task.user_perferred_behavior << ". Cd alc.";
+          //LOG(WARNING) << "[HMI]lane change cancel by stick "
+                      //  << last_task_.user_perferred_behavior << " to "
+                      //  << task.user_perferred_behavior << ". Cd alc.";
           lc_context_.completed = true;
           lc_context_.trigger_when_appropriate = false;
           last_lc_proposal_.trigger_time = stamp;
@@ -540,16 +540,16 @@ void EudmManager::UpdateLaneChangeContextByTask(const decimal_t stamp, const Tas
                               .active_lc()
                               .auto_cancel_if_late_for_seconds()) {
             if (lc_context_.lat == LateralBehavior::kLaneChangeLeft) {
-              LOG(WARNING)
-                  << "[HMI]ACTIVE [Left] auto cancel due to outdated for "
-                  << stamp - lc_context_.desired_operation_time
-                  << " s. Cd alc.";
+              //LOG(WARNING)
+                  // << "[HMI]ACTIVE [Left] auto cancel due to outdated for "
+                  // << stamp - lc_context_.desired_operation_time
+                  // << " s. Cd alc.";
             } 
             else {
-              LOG(WARNING)
-                  << "[HMI]ACTIVE [Right] auto cancel due to outdated for "
-                  << stamp - lc_context_.desired_operation_time
-                  << " s. Cd alc.";
+              //LOG(WARNING)
+                  // << "[HMI]ACTIVE [Right] auto cancel due to outdated for "
+                  // << stamp - lc_context_.desired_operation_time
+                  // << " s. Cd alc.";
             }
             lc_context_.completed = true;
             lc_context_.trigger_when_appropriate = false;
@@ -561,8 +561,8 @@ void EudmManager::UpdateLaneChangeContextByTask(const decimal_t stamp, const Tas
                          .enable_auto_cancel_by_forbid_signal() &&
                      task.lc_info.forbid_lane_change_left &&
                      lc_context_.lat == LateralBehavior::kLaneChangeLeft) {
-            LOG(WARNING) << "[HMI]ACTIVE [Left] canceled due to forbidden "
-                            "signal. Cd alc.";
+            //LOG(WARNING) << "[HMI]ACTIVE [Left] canceled due to forbidden "
+                            // "signal. Cd alc.";
             lc_context_.completed = true;
             lc_context_.trigger_when_appropriate = false;
             last_lc_proposal_.trigger_time = stamp;
@@ -573,9 +573,9 @@ void EudmManager::UpdateLaneChangeContextByTask(const decimal_t stamp, const Tas
                          .enable_auto_cancel_by_forbid_signal() &&
                      task.lc_info.forbid_lane_change_right &&
                      lc_context_.lat == LateralBehavior::kLaneChangeRight) {
-            LOG(WARNING)
-                << "[HMI]ACTIVE [Right] canceled due to forbidden signal. "
-                   "Cd alc.";
+            //LOG(WARNING)
+                // << "[HMI]ACTIVE [Right] canceled due to forbidden signal. "
+                //    "Cd alc.";
             lc_context_.completed = true;
             lc_context_.trigger_when_appropriate = false;
             last_lc_proposal_.trigger_time = stamp;
@@ -587,9 +587,9 @@ void EudmManager::UpdateLaneChangeContextByTask(const decimal_t stamp, const Tas
                      lc_context_.lat == LateralBehavior::kLaneChangeLeft &&
                      (task.user_perferred_behavior == 1 ||
                       task.user_perferred_behavior == 11)) {
-            LOG(WARNING)
-                << "[HMI]ACTIVE [left] canceled due to human opposite signal. "
-                   "Cd alc.";
+            //LOG(WARNING)
+                // << "[HMI]ACTIVE [left] canceled due to human opposite signal. "
+                //    "Cd alc.";
             lc_context_.completed = true;
             lc_context_.trigger_when_appropriate = false;
             last_lc_proposal_.trigger_time = stamp;
@@ -601,8 +601,8 @@ void EudmManager::UpdateLaneChangeContextByTask(const decimal_t stamp, const Tas
                      lc_context_.lat == LateralBehavior::kLaneChangeRight &&
                      (task.user_perferred_behavior == -1 ||
                       task.user_perferred_behavior == 12)) {
-            LOG(WARNING) << "[HMI]ACTIVE canceled due to human active signal. "
-                            "Cd alc.";
+            //LOG(WARNING) << "[HMI]ACTIVE canceled due to human active signal. "
+                            // "Cd alc.";
             lc_context_.completed = true;
             lc_context_.trigger_when_appropriate = false;
             last_lc_proposal_.trigger_time = stamp;
@@ -616,14 +616,14 @@ void EudmManager::UpdateLaneChangeContextByTask(const decimal_t stamp, const Tas
       if (task.user_perferred_behavior != 1 &&
           last_task_.user_perferred_behavior == 1 &&
           lc_context_.trigger_when_appropriate) {
-        LOG(WARNING) << "[HMI]clear cached stick trigger state. Cd alc.";
+        //LOG(WARNING) << "[HMI]clear cached stick trigger state. Cd alc.";
         lc_context_.trigger_when_appropriate = false;
         last_lc_proposal_.trigger_time = stamp;
       } 
       else if (task.user_perferred_behavior != -1 &&
                  last_task_.user_perferred_behavior == -1 &&
                  lc_context_.trigger_when_appropriate) {
-        LOG(WARNING) << "[HMI]clear cached stick trigger state. Cd alc.";
+        //LOG(WARNING) << "[HMI]clear cached stick trigger state. Cd alc.";
         lc_context_.trigger_when_appropriate = false;
         last_lc_proposal_.trigger_time = stamp;
       }
@@ -633,8 +633,8 @@ void EudmManager::UpdateLaneChangeContextByTask(const decimal_t stamp, const Tas
         // receive a lane change right trigger and previous action has been
         // completed
         if (task.lc_info.forbid_lane_change_right) {
-          LOG(WARNING)
-              << "[HMI]cannot stick [Right]. Will trigger when appropriate.";
+          //LOG(WARNING)
+              // << "[HMI]cannot stick [Right]. Will trigger when appropriate.";
           lc_context_.trigger_when_appropriate = true;
           lc_context_.lat = LateralBehavior::kLaneChangeRight;
         } 
@@ -649,33 +649,33 @@ void EudmManager::UpdateLaneChangeContextByTask(const decimal_t stamp, const Tas
             lc_context_.lat = LateralBehavior::kLaneChangeRight;
             lc_context_.type = LaneChangeTriggerType::kStick;
             last_lc_proposal_.trigger_time = stamp;
-            LOG(WARNING) << std::fixed << std::setprecision(5)
-                         << "[HMI]stick [Right] triggered "
-                         << last_task_.user_perferred_behavior << "->"
-                         << task.user_perferred_behavior << " in "
-                         << bp_.cfg().function().stick_lane_change_in_seconds()
-                         << " s. Trigger time " << lc_context_.trigger_time
-                         << " and absolute action time: "
-                         << lc_context_.desired_operation_time << ". Cd alc.";
+            //LOG(WARNING) << std::fixed << std::setprecision(5)
+                        //  << "[HMI]stick [Right] triggered "
+                        //  << last_task_.user_perferred_behavior << "->"
+                        //  << task.user_perferred_behavior << " in "
+                        //  << bp_.cfg().function().stick_lane_change_in_seconds()
+                        //  << " s. Trigger time " << lc_context_.trigger_time
+                        //  << " and absolute action time: "
+                        //  << lc_context_.desired_operation_time << ". Cd alc.";
           } 
           else {
             lc_context_.trigger_when_appropriate = true;
             lc_context_.lat = LateralBehavior::kLaneChangeRight;
             lc_context_.type = LaneChangeTriggerType::kStick;
-            LOG(WARNING)
-                << std::fixed << std::setprecision(5)
-                << "[HMI]stick [Right] triggered "
-                << last_task_.user_perferred_behavior << "->"
-                << task.user_perferred_behavior
-                << " but not a good time. Will trigger when appropriate.";
+            //LOG(WARNING)
+                // << std::fixed << std::setprecision(5)
+                // << "[HMI]stick [Right] triggered "
+                // << last_task_.user_perferred_behavior << "->"
+                // << task.user_perferred_behavior
+                // << " but not a good time. Will trigger when appropriate.";
           }
         }
       } 
       else if (task.user_perferred_behavior == -1 &&
                  last_task_.user_perferred_behavior != -1) {
         if (task.lc_info.forbid_lane_change_left) {
-          LOG(WARNING)
-              << "[HMI]cannot stick [Left]. Will trigger when appropriate.";
+          //LOG(WARNING)
+              // << "[HMI]cannot stick [Left]. Will trigger when appropriate.";
           lc_context_.trigger_when_appropriate = true;
           lc_context_.lat = LateralBehavior::kLaneChangeLeft;
         } 
@@ -690,25 +690,25 @@ void EudmManager::UpdateLaneChangeContextByTask(const decimal_t stamp, const Tas
             lc_context_.lat = LateralBehavior::kLaneChangeLeft;
             lc_context_.type = LaneChangeTriggerType::kStick;
             last_lc_proposal_.trigger_time = stamp;
-            LOG(WARNING) << std::fixed << std::setprecision(5)
-                         << "[HMI]stick [Left] triggered "
-                         << last_task_.user_perferred_behavior << "->"
-                         << task.user_perferred_behavior << " in "
-                         << bp_.cfg().function().stick_lane_change_in_seconds()
-                         << " s. Trigger time " << lc_context_.trigger_time
-                         << " and absolute action time: "
-                         << lc_context_.desired_operation_time << ". Cd alc.";
+            //LOG(WARNING) << std::fixed << std::setprecision(5)
+                        //  << "[HMI]stick [Left] triggered "
+                        //  << last_task_.user_perferred_behavior << "->"
+                        //  << task.user_perferred_behavior << " in "
+                        //  << bp_.cfg().function().stick_lane_change_in_seconds()
+                        //  << " s. Trigger time " << lc_context_.trigger_time
+                        //  << " and absolute action time: "
+                        //  << lc_context_.desired_operation_time << ". Cd alc.";
           } 
           else {
             lc_context_.trigger_when_appropriate = true;
             lc_context_.lat = LateralBehavior::kLaneChangeLeft;
             lc_context_.type = LaneChangeTriggerType::kStick;
-            LOG(WARNING)
-                << std::fixed << std::setprecision(5)
-                << "[HMI]stick [Left] triggered "
-                << last_task_.user_perferred_behavior << "->"
-                << task.user_perferred_behavior
-                << " but not a good time. Will trigger when appropriate.";
+            //LOG(WARNING)
+                // << std::fixed << std::setprecision(5)
+                // << "[HMI]stick [Left] triggered "
+                // << last_task_.user_perferred_behavior << "->"
+                // << task.user_perferred_behavior
+                // << " but not a good time. Will trigger when appropriate.";
           }
         }
       } 
@@ -725,12 +725,12 @@ void EudmManager::UpdateLaneChangeContextByTask(const decimal_t stamp, const Tas
             lc_context_.lat = LateralBehavior::kLaneChangeLeft;
             lc_context_.type = LaneChangeTriggerType::kStick;
             last_lc_proposal_.trigger_time = stamp;
-            LOG(WARNING) << std::fixed << std::setprecision(5)
-                         << "[HMI][[cached]] stick [Left] appropriate in "
-                         << bp_.cfg().function().stick_lane_change_in_seconds()
-                         << " s. Trigger time " << lc_context_.trigger_time
-                         << " and absolute action time: "
-                         << lc_context_.desired_operation_time << ". Cd alc.";
+            //LOG(WARNING) << std::fixed << std::setprecision(5)
+                        //  << "[HMI][[cached]] stick [Left] appropriate in "
+                        //  << bp_.cfg().function().stick_lane_change_in_seconds()
+                        //  << " s. Trigger time " << lc_context_.trigger_time
+                        //  << " and absolute action time: "
+                        //  << lc_context_.desired_operation_time << ". Cd alc.";
           }
         } 
         else if (lc_context_.lat == LateralBehavior::kLaneChangeRight &&
@@ -745,12 +745,12 @@ void EudmManager::UpdateLaneChangeContextByTask(const decimal_t stamp, const Tas
             lc_context_.lat = LateralBehavior::kLaneChangeRight;
             lc_context_.type = LaneChangeTriggerType::kStick;
             last_lc_proposal_.trigger_time = stamp;
-            LOG(WARNING) << std::fixed << std::setprecision(5)
-                         << "[HMI][[cached]] stick [Right] triggered in "
-                         << bp_.cfg().function().stick_lane_change_in_seconds()
-                         << " s. Trigger time " << lc_context_.trigger_time
-                         << " and absolute action time: "
-                         << lc_context_.desired_operation_time << ". Cd alc.";
+            //LOG(WARNING) << std::fixed << std::setprecision(5)
+                        //  << "[HMI][[cached]] stick [Right] triggered in "
+                        //  << bp_.cfg().function().stick_lane_change_in_seconds()
+                        //  << " s. Trigger time " << lc_context_.trigger_time
+                        //  << " and absolute action time: "
+                        //  << lc_context_.desired_operation_time << ". Cd alc.";
           }
         }
       } 
@@ -775,20 +775,20 @@ void EudmManager::UpdateLaneChangeContextByTask(const decimal_t stamp, const Tas
             lc_context_.type = LaneChangeTriggerType::kActive;
             last_lc_proposal_.trigger_time = stamp;
             if (last_lc_proposal_.lat == LateralBehavior::kLaneChangeLeft) {
-              LOG(WARNING) << std::fixed << std::setprecision(5)
-                           << "[HMI][[Active]] [Left] triggered in "
-                           << last_lc_proposal_.operation_at_seconds
-                           << " s. Trigger time " << lc_context_.trigger_time
-                           << " and absolute action time: "
-                           << lc_context_.desired_operation_time << ". Cd alc.";
+              //LOG(WARNING) << std::fixed << std::setprecision(5)
+                          //  << "[HMI][[Active]] [Left] triggered in "
+                          //  << last_lc_proposal_.operation_at_seconds
+                          //  << " s. Trigger time " << lc_context_.trigger_time
+                          //  << " and absolute action time: "
+                          //  << lc_context_.desired_operation_time << ". Cd alc.";
             } 
             else {
-              LOG(WARNING) << std::fixed << std::setprecision(5)
-                           << "[HMI][[Active]] [Right] triggered in "
-                           << last_lc_proposal_.operation_at_seconds
-                           << " s. Trigger time " << lc_context_.trigger_time
-                           << " and absolute action time: "
-                           << lc_context_.desired_operation_time << ". Cd alc.";
+              //LOG(WARNING) << std::fixed << std::setprecision(5)
+                          //  << "[HMI][[Active]] [Right] triggered in "
+                          //  << last_lc_proposal_.operation_at_seconds
+                          //  << " s. Trigger time " << lc_context_.trigger_time
+                          //  << " and absolute action time: "
+                          //  << lc_context_.desired_operation_time << ". Cd alc.";
             }
           }
         }
@@ -797,7 +797,7 @@ void EudmManager::UpdateLaneChangeContextByTask(const decimal_t stamp, const Tas
   }  // if under control
 
   // any proposal will not last for more than one cycle
-  LOG(WARNING) << "UpdateLaneChangeContextByTask:lc_context_.completed end" << lc_context_.completed;
+  //LOG(WARNING) << "UpdateLaneChangeContextByTask:lc_context_.completed end" << lc_context_.completed;
   last_lc_proposal_.valid = false;
   last_task_ = task;
 }  // namespace planning
@@ -877,8 +877,8 @@ ErrorType EudmManager::EvaluateReferenceVelocity(
   // *ref_vel = std::floor(std::min(std::max(v_ref, 0.0), task.user_desired_vel));
   *ref_vel = std::min(std::max(v_ref, 0.0), task.user_desired_vel); // NOTE for MLAD: 不需要速度爲整數
 
-  LOG(WARNING) << "[Eudm][Desired]User ref vel: " << task.user_desired_vel
-               << ", final ref vel: " << *ref_vel;
+  //LOG(WARNING) << "[Eudm][Desired]User ref vel: " << task.user_desired_vel
+              //  << ", final ref vel: " << *ref_vel;
   return kSuccess;
 }
 
@@ -954,14 +954,14 @@ ErrorType EudmManager::Run(
     return kWrongStatus;
   }
   auto t_prepare = prepare_timer.toc();
-  LOG(ERROR) << std::fixed << std::setprecision(4)
-               << "[Eudm]Prepare time cost " << t_prepare << " ms";
+  //LOG(ERROR) << std::fixed << std::setprecision(4)
+              //  << "[Eudm]Prepare time cost " << t_prepare << " ms";
 
   // * II : RunOnce
   static TicToc runonce_timer;
   runonce_timer.tic();
   if (bp_.RunOnce() != kSuccess) {
-    LOG(ERROR) << "[Eudm][Fatal]BP runonce failed.";
+    //LOG(ERROR) << "[Eudm][Fatal]BP runonce failed.";
     return kWrongStatus;
   }
   auto t_runonce = runonce_timer.toc();
@@ -976,11 +976,11 @@ ErrorType EudmManager::Run(
   // * IV: Reselect
   if (ReselectByContext(stamp, snapshot, &snapshot.processed_winner_id) !=
       kSuccess) {
-    LOG(ERROR) << "[Eudm][Fatal]Reselect failed.";
+    //LOG(ERROR) << "[Eudm][Fatal]Reselect failed.";
     return kWrongStatus;
   }
-  LOG(WARNING) << "[Eudm]original id " << snapshot.original_winner_id
-               << " reselect : " << snapshot.processed_winner_id;
+  //LOG(WARNING) << "[Eudm]original id " << snapshot.original_winner_id
+              //  << " reselect : " << snapshot.processed_winner_id;
   {
     std::ostringstream line_info;
     line_info << "[Eudm][Output]Reselected <if_risky:"
@@ -1000,11 +1000,11 @@ ErrorType EudmManager::Run(
                 << "," << v.state().acceleration << "," << v.state().curvature
                 << ">";
     }
-    LOG(WARNING) << line_info.str();
+    //LOG(WARNING) << line_info.str();
   }
   auto t_sum_reselect = sum_reselect_timer.toc();
-  LOG(WARNING) << std::fixed << std::setprecision(4)
-               << "[Eudm]Sum & Reselect time cost " << t_sum_reselect << " ms";
+  //LOG(WARNING) << std::fixed << std::setprecision(4)
+              //  << "[Eudm]Sum & Reselect time cost " << t_sum_reselect << " ms";
 
   static TicToc lane_timer;
   lane_timer.tic();
@@ -1022,10 +1022,10 @@ ErrorType EudmManager::Run(
   context_.seq_start_time = stamp;
   context_.action_seq = snapshot.action_script[snapshot.processed_winner_id];
   // if (UpdateCurEgoVehicleAfterPlanning(cur_ego_id) != kSuccess) {
-  //   LOG(ERROR) << "[Eudm] Update cur ego vehicle after planning failed ";
+  //   //LOG(ERROR) << "[Eudm] Update cur ego vehicle after planning failed ";
   // } // 规划结束时暂不更新，需要等到收到agv反馈后，再和轨迹一起更新
   auto t_lane = lane_timer.toc();
-  LOG(ERROR) << "[Eudm]Fit reflane & update cost: " << t_lane << " ms";
+  //LOG(ERROR) << "[Eudm]Fit reflane & update cost: " << t_lane << " ms";
 
   auto t_sum = t_prepare + t_runonce + t_sum_reselect + t_lane;
   auto t_eudmrun = eudm_timer.toc();
@@ -1055,7 +1055,7 @@ bool EudmManager::GetReplanDesiredAction(const decimal_t current_time,
     t_aggre += context_.action_seq[i].t;
     if (time_since_last_plan + kEPS < t_aggre) {
       *desired_action = context_.action_seq[i];
-      LOG(WARNING) << "[Eudm::GetReplanDesiredAction] find match action: " << context_.action_seq[i];
+      //LOG(WARNING) << "[Eudm::GetReplanDesiredAction] find match action: " << context_.action_seq[i];
       desired_action->t = t_aggre - time_since_last_plan;
       find_match_action = true;
       break;

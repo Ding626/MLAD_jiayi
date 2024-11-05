@@ -38,7 +38,7 @@ ErrorType SscPlannerAdapter::GetLocalReferenceLane(Lane* lane) {
   if (!is_valid_) return kWrongStatus;
   auto ref_lane = map_->ego_behavior().ref_lane;
   if (!ref_lane.IsValid()) {
-    LOG(ERROR) << "[SscPlannerAdapter::GetLocalReferenceLane]No reference lane existing.";
+    //LOG(ERROR) << "[SscPlannerAdapter::GetLocalReferenceLane]No reference lane existing.";
     return kWrongStatus;
   }
   *lane = ref_lane;
@@ -108,7 +108,7 @@ ErrorType SscPlannerAdapter::GetEgoReferenceLane(Lane* lane) {
   if (!is_valid_) return kWrongStatus;
   auto ref_lane = map_->ego_behavior().ref_lane;
   if (!ref_lane.IsValid()) {
-    LOG(ERROR) << "[GetEgoReferenceLane]No reference lane existing.";
+    //LOG(ERROR) << "[GetEgoReferenceLane]No reference lane existing.";
     return kWrongStatus;
   }
   *lane = ref_lane;

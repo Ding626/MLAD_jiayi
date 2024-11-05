@@ -75,10 +75,10 @@ void RosAdapter::VehicleTaskCallback(
     vehicle_msgs::Decoder::GetTaskFromTaskSet(*msg, &time_stamp, &task_set_);
     p_data_renderer_->UpdateCurrentTask(task_set_);
     fleet_task_id = msg->fleet_task_id;
-    LOG(ERROR) << "[VehicleTaskCallback] task updated \n";
+    //LOG(ERROR) << "[VehicleTaskCallback] task updated \n";
   }
 
-  LOG(ERROR) << "[VehicleTaskCallback] function in \n";
+  //LOG(ERROR) << "[VehicleTaskCallback] function in \n";
 }
 
 void RosAdapter::VehicleTrajectoryCallback(

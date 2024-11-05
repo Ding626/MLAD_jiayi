@@ -64,7 +64,7 @@ namespace planning
     {
       TicToc timer;
       p_ssc_vis_->VisualizeDataWithStamp(ros::Time(current_time), planner_);
-      LOG(ERROR) << "[SscPlannerServer]ssc vis all time cost: " << timer.toc() << " ms";
+      //LOG(ERROR) << "[SscPlannerServer]ssc vis all time cost: " << timer.toc() << " ms";
     }
 
     if (executing_traj_ == nullptr || !executing_traj_->IsValid())
@@ -136,8 +136,8 @@ namespace planning
     if (executing_traj_ == nullptr || !executing_traj_->IsValid())
     {
       ctrl_cmd_pub_.publish(ctrl_cmd_msg);
-      LOG(ERROR) << "[SscPlannerServer] Publish control command (linear.x: " << ctrl_cmd_msg.linear.x
-                << ", angular.z: " << ctrl_cmd_msg.angular.z << ")";
+      //LOG(ERROR) << "[SscPlannerServer] Publish control command (linear.x: " << ctrl_cmd_msg.linear.x
+                // << ", angular.z: " << ctrl_cmd_msg.angular.z << ")";
       return;
     }
 
@@ -164,18 +164,18 @@ namespace planning
     }
 
     ctrl_signal_pub_.publish(ctrl_msg);
-    LOG(ERROR) << "[SscPlannerServer] publish ControlSignal <x,y,v,acc,angle,steer,curvature>:<" 
-              << state.vec_position[0] << ", " 
-              << state.vec_position[1] << ", " 
-              << state.velocity << ", "
-              << state.acceleration << ", "
-              << state.angle << ", "
-              << state.steer << ", "
-              << state.curvature
-              << ">";
+    //LOG(ERROR) << "[SscPlannerServer] publish ControlSignal <x,y,v,acc,angle,steer,curvature>:<" 
+              // << state.vec_position[0] << ", " 
+              // << state.vec_position[1] << ", " 
+              // << state.velocity << ", "
+              // << state.acceleration << ", "
+              // << state.angle << ", "
+              // << state.steer << ", "
+              // << state.curvature
+              // << ">";
     ctrl_cmd_pub_.publish(ctrl_cmd_msg);
-    LOG(ERROR) << "[PublishCtrlCommand] Publish control command (linear.x: " << ctrl_cmd_msg.linear.x
-              << ", angular.z: " << ctrl_cmd_msg.angular.z << ")";
+    //LOG(ERROR) << "[PublishCtrlCommand] Publish control command (linear.x: " << ctrl_cmd_msg.linear.x
+              // << ", angular.z: " << ctrl_cmd_msg.angular.z << ")";
     return;
   }
 
@@ -201,7 +201,7 @@ namespace planning
 
       if (use_sim_state_)
       {
-        LOG(ERROR) << "[SscPlannerServer]use_sim_state_: true. \n";
+        //LOG(ERROR) << "[SscPlannerServer]use_sim_state_: true. \n";
         decimal_t lf_dis = 0.7;
         decimal_t plan_horizon = 1.0 / work_rate_; 
         int num_cycles =
@@ -223,15 +223,15 @@ namespace planning
                 common::VehicleControlSignal(state), ros::Time(ct),
                 std::string("map"), &ctrl_msg);
             ctrl_signal_pub_.publish(ctrl_msg);
-            LOG(ERROR) << "[SscPlannerServer] publish ControlSignal <x,y,v,acc,angle,steer,curvature>:<" 
-                      << state.vec_position[0] << ", " 
-                      << state.vec_position[1] << ", " 
-                      << state.velocity << ", "
-                      << state.acceleration << ", "
-                      << state.angle << ", "
-                      << state.steer << ", "
-                      << state.curvature
-                      << ">";
+            //LOG(ERROR) << "[SscPlannerServer] publish ControlSignal <x,y,v,acc,angle,steer,curvature>:<" 
+                      // << state.vec_position[0] << ", " 
+                      // << state.vec_position[1] << ", " 
+                      // << state.velocity << ", "
+                      // << state.acceleration << ", "
+                      // << state.angle << ", "
+                      // << state.steer << ", "
+                      // << state.curvature
+                      // << ">";
             // decimal_t wheel_base = 0.5;
             // decimal_t cur_to_dest_angle =
             //     vec2d_to_angle(state.vec_position - last_smm_.ego_vehicle().state().vec_position);
@@ -264,14 +264,14 @@ namespace planning
           }
           else
           {
-            LOG(ERROR) << "[SscPlannerServer]cannot evaluate state at " << ct << " with begin "
-                      << executing_traj_->begin();
+            //LOG(ERROR) << "[SscPlannerServer]cannot evaluate state at " << ct << " with begin "
+                      // << executing_traj_->begin();
           }
         }
       }
       else
       {
-        LOG(ERROR) << "[SscPlannerServer]use_sim_state_: false.";
+        //LOG(ERROR) << "[SscPlannerServer]use_sim_state_: false.";
       }
     }
   }
@@ -293,10 +293,10 @@ namespace planning
     if (fabs(filter_state->velocity) < singular_velocity &&
         fabs(normalize_angle(filter_state->angle - hist.back().angle)) >
             max_orientation_change) {
-      LOG(ERROR) << "[SscPlannerServer]Detect singularity velocity "<< filter_state->velocity 
-                << ", angle (" << hist.back().angle << ", " << filter_state->angle <<").";
+      //LOG(ERROR) << "[SscPlannerServer]Detect singularity velocity "<< filter_state->velocity 
+                // << ", angle (" << hist.back().angle << ", " << filter_state->angle <<").";
       filter_state->angle = hist.back().angle;
-      LOG(ERROR) << "[SscPlannerServer]Filter angle to " << hist.back().angle;
+      //LOG(ERROR) << "[SscPlannerServer]Filter angle to " << hist.back().angle;
     }
     return kSuccess;
   }
@@ -340,7 +340,7 @@ namespace planning
       return;
     }
     planner_.set_map_interface(&map_adapter_);
-    LOG(ERROR) << "[SscPlannerServer]Planner server started.";
+    //LOG(ERROR) << "[SscPlannerServer]Planner server started.";
     is_replan_on_ = true;
 
     std::thread(&SscPlannerServer::MainThread, this).detach();
@@ -390,16 +390,16 @@ namespace planning
     PublishData();
 
     auto current_time = ros::Time::now().toSec();
-    LOG(ERROR) << "[SscPlannerServer]>>>>>>>current time " << current_time;
-    LOG(ERROR) << "[SscPlannerServer] current state <x,y,v,acc,angle,steer,curvature>:<" 
-              << last_smm_.ego_vehicle().state().vec_position[0] << ", " 
-              << last_smm_.ego_vehicle().state().vec_position[1] << ", " 
-              << last_smm_.ego_vehicle().state().velocity << ", "
-              << last_smm_.ego_vehicle().state().acceleration << ", "
-              << last_smm_.ego_vehicle().state().angle << ", "
-              << last_smm_.ego_vehicle().state().steer << ", "
-              << last_smm_.ego_vehicle().state().curvature
-              << ">";
+    //LOG(ERROR) << "[SscPlannerServer]>>>>>>>current time " << current_time;
+    // //LOG(ERROR) << "[SscPlannerServer] current state <x,y,v,acc,angle,steer,curvature>:<" 
+    //           << last_smm_.ego_vehicle().state().vec_position[0] << ", " 
+    //           << last_smm_.ego_vehicle().state().vec_position[1] << ", " 
+    //           << last_smm_.ego_vehicle().state().velocity << ", "
+    //           << last_smm_.ego_vehicle().state().acceleration << ", "
+    //           << last_smm_.ego_vehicle().state().angle << ", "
+    //           << last_smm_.ego_vehicle().state().steer << ", "
+    //           << last_smm_.ego_vehicle().state().curvature
+    //           << ">";
 
     if (executing_traj_ == nullptr || !executing_traj_->IsValid() ||
         !use_sim_state_)
@@ -415,7 +415,7 @@ namespace planning
 
       if (planner_.RunOnce() != kSuccess)
       {
-        LOG(ERROR) << "[SscPlannerServer]Initial planning failed.\n";
+        //LOG(ERROR) << "[SscPlannerServer]Initial planning failed.\n";
         require_intervention_signal_ = true;
         return;
       }
@@ -434,10 +434,10 @@ namespace planning
 
     if (current_time > executing_traj_->end())
     {
-      LOG(ERROR) << "[SscPlannerServer]Current time " << current_time 
-                << "out of [" << executing_traj_->begin() << ", " 
-                << executing_traj_->end() << "].";
-      LOG(ERROR) << "[SscPlannerServer]Mission complete.\n";
+      //LOG(ERROR) << "[SscPlannerServer]Current time " << current_time 
+                // << "out of [" << executing_traj_->begin() << ", " 
+                // << executing_traj_->end() << "].";
+      //LOG(ERROR) << "[SscPlannerServer]Mission complete.\n";
       // is_replan_on_ = false;
       executing_traj_.release();
       next_traj_.release();
@@ -481,16 +481,16 @@ namespace planning
             : num_cycles_exec + 1;
     decimal_t t = global_init_stamp_ + plan_horizon * num_cycles_ahead;
 
-    LOG(ERROR) << 
-        "[SscPlannerServer]init stamp: " << global_init_stamp_ << ", plan horizon: "
-        << plan_horizon << ", num cycles " << num_cycles_ahead;
-    LOG(ERROR) << 
-        "[SscPlannerServer]Replan at cur time " << cur_time << " with executing traj begin time: "
-        << executing_traj_->begin() << " to rounded t: " << t;
+    // //LOG(ERROR) << 
+    //     "[SscPlannerServer]init stamp: " << global_init_stamp_ << ", plan horizon: "
+    //     << plan_horizon << ", num cycles " << num_cycles_ahead;
+    // //LOG(ERROR) << 
+    //     "[SscPlannerServer]Replan at cur time " << cur_time << " with executing traj begin time: "
+    //     << executing_traj_->begin() << " to rounded t: " << t;
 
     if (executing_traj_->GetState(t, &desired_state) != kSuccess)
     {
-      LOG(ERROR) << "[SscPlannerServer]Cannot get desired state at " << t;
+      //LOG(ERROR) << "[SscPlannerServer]Cannot get desired state at " << t;
       return;
     }
     std::ostringstream line_info;
@@ -500,7 +500,7 @@ namespace planning
               << desired_state.velocity << ", "
               << desired_state.acceleration << ", " 
               << desired_state.angle << ">";
-    LOG(ERROR) << line_info.str();
+    //LOG(ERROR) << line_info.str();
 
     FilterSingularityState(desired_state_hist_, &desired_state);
     desired_state_hist_.push_back(desired_state);
@@ -512,13 +512,13 @@ namespace planning
     time_profile_tool_.tic();
     if (planner_.RunOnce() != kSuccess)
     {
-      LOG(ERROR) << "[SscPlannerServer]Ssc planner core failed in " << time_profile_tool_.toc() << " ms.";
+      //LOG(ERROR) << "[SscPlannerServer]Ssc planner core failed in " << time_profile_tool_.toc() << " ms.";
       require_intervention_signal_ = true;
       return;
     }
 
     require_intervention_signal_ = false;
-    LOG(ERROR) << "[SscPlannerServer]Ssc planner succeed in " << time_profile_tool_.toc() << " ms.";
+    //LOG(ERROR) << "[SscPlannerServer]Ssc planner succeed in " << time_profile_tool_.toc() << " ms.";
 
     next_traj_ = std::move(planner_.trajectory());
   }

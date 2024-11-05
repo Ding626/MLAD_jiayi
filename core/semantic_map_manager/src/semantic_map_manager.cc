@@ -78,11 +78,11 @@ ErrorType SemanticMapManager::UpdateSemanticMap(
     //   // 当前需要开始规划，首先计算各个车道的方向，其次计算各个agv优先级，再将优先级加入到id_queue
     //   // UpdateBehaviralLanesDirection();
     //   std::vector<int> rank;
-    //   LOG(ERROR) << "[UpdateSemanticMap] Start to get priority.";
+    //   //LOG(ERROR) << "[UpdateSemanticMap] Start to get priority.";
     //   GetPriorityRankingForEgoVehicles(&rank);
-    //   LOG(ERROR) << "[UpdateSemanticMap] rank size is "<< rank.size();
+    //   //LOG(ERROR) << "[UpdateSemanticMap] rank size is "<< rank.size();
     //   id_queue->UpdateQueue(rank);
-    //   LOG(ERROR) << "[UpdateSemanticMap] finish updating queue.\n";
+    //   //LOG(ERROR) << "[UpdateSemanticMap] finish updating queue.\n";
     // }
 
     PublishLanes();
@@ -603,7 +603,7 @@ ErrorType SemanticMapManager::UpdateKeyVehicles(const common::VehicleSet &key_ve
   // NOTE: 在这里调用behavioralVehicles的类，更新一下
   // TODO for MLAD: key_vehicle_ids_需要加互斥鎖！！！
   // 首先历遍，删除不在的agv
-  std::cout << "Length of key_vehicle_ids_: " << key_vehicle_ids_.size() << std::endl;
+  // std::cout << "Length of key_vehicle_ids_: " << key_vehicle_ids_.size() << std::endl;
   for (const auto &id:key_vehicle_ids_) {
     if (key_vehicles.vehicles.find(id) == key_vehicles.vehicles.end()) {
       //新的key_vehicles不存在旧的vehicles，说明需要删除
@@ -646,8 +646,8 @@ ErrorType SemanticMapManager::UpdateKeyVehicles(const common::VehicleSet &key_ve
       if (ego_vehicle_ids_.find(v.first) == ego_vehicle_ids_.end()) {
         need_plan_now_ = true; // 有新的agv變爲ego vehicles
         ego_vehicle_ids_.insert(v.first); // 由於不會出現多個線程同時寫入insert的情況，只會有一個寫入一個讀取，所以是安全的
-        LOG(ERROR) << "[SemanticMapManager::UpdateKeyVehicles] agent " << v.first 
-                  << " first enter lane " << nearest_lane_id;
+        //LOG(ERROR) << "[SemanticMapManager::UpdateKeyVehicles] agent " << v.first 
+           //       << " first enter lane " << nearest_lane_id;
       }
 
       if (surrounding_vehicle_ids_.find(v.first) != surrounding_vehicle_ids_.end()) {
@@ -743,8 +743,8 @@ ErrorType SemanticMapManager::GetVehicleNumInBehavioralLanes(const int &ego_vehi
     if (target_num_in_spec_lane->find(target_lane_id) != target_num_in_spec_lane->end()) {
       target_num_in_spec_lane->at(target_lane_id) += 1;
     }
-    LOG(ERROR) << "[SemanticMapManager::GetVehicleNumInBehavioralLanes] the target lane id of agent " 
-              << iter->first << " is " << target_lane_id;
+    //LOG(ERROR) << "[SemanticMapManager::GetVehicleNumInBehavioralLanes] the target lane id of agent " 
+           //   << iter->first << " is " << target_lane_id;
   }
 
   for (auto iter = semantic_uncertain_vehicles_.semantic_vehicles.begin(); iter != semantic_uncertain_vehicles_.semantic_vehicles.end(); iter++) {
@@ -800,8 +800,8 @@ ErrorType SemanticMapManager::UpdateBehaviralLanesDirection() {
   std::unordered_map<int, int> target_num_in_spec_lane;
   GetVehicleNumInBehavioralLanes(kInvalidAgentId, &pos_dir_vehicle_num, &neg_dir_vehicle_num, &cur_num_in_spec_lane, &target_num_in_spec_lane);
 
-  LOG(ERROR) << "[SemanticMapManager::UpdateBehaviralLanesDirection] pos_dir_vehicle_num is " << pos_dir_vehicle_num;
-  LOG(ERROR) << "[SemanticMapManager::UpdateBehaviralLanesDirection] neg_dir_vehicle_num is " << neg_dir_vehicle_num;
+  //LOG(ERROR) << "[SemanticMapManager::UpdateBehaviralLanesDirection] pos_dir_vehicle_num is " << pos_dir_vehicle_num;
+  //LOG(ERROR) << "[SemanticMapManager::UpdateBehaviralLanesDirection] neg_dir_vehicle_num is " << neg_dir_vehicle_num;
 
   if (pos_dir_vehicle_num == 0 && neg_dir_vehicle_num == 0) {
     // 沒有車
@@ -835,29 +835,29 @@ ErrorType SemanticMapManager::UpdateBehaviralLanesDirection() {
     return kWrongStatus;
   }
 
-  LOG(ERROR) << "[SemanticMapManager::UpdateBehaviralLanesDirection] pos_dir_lane_num is " << pos_dir_lane_num;
-  LOG(ERROR) << "[SemanticMapManager::UpdateBehaviralLanesDirection] neg_dir_lane_num is " << neg_dir_lane_num;
+  //LOG(ERROR) << "[SemanticMapManager::UpdateBehaviralLanesDirection] pos_dir_lane_num is " << pos_dir_lane_num;
+  //LOG(ERROR) << "[SemanticMapManager::UpdateBehaviralLanesDirection] neg_dir_lane_num is " << neg_dir_lane_num;
 
   decimal_t pos_vehicle_num_per_lane = static_cast<decimal_t>(pos_dir_vehicle_num)/static_cast<decimal_t>(pos_dir_lane_num);
   decimal_t neg_vehicle_num_per_lane = static_cast<decimal_t>(neg_dir_vehicle_num)/static_cast<decimal_t>(neg_dir_lane_num);
-  LOG(ERROR) << "[SemanticMapManager::UpdateBehaviralLanesDirection] pos_vehicle_num_per_lane is " << pos_vehicle_num_per_lane;
-  LOG(ERROR) << "[SemanticMapManager::UpdateBehaviralLanesDirection] neg_vehicle_num_per_lane is " << neg_vehicle_num_per_lane;
+  //LOG(ERROR) << "[SemanticMapManager::UpdateBehaviralLanesDirection] pos_vehicle_num_per_lane is " << pos_vehicle_num_per_lane;
+  //LOG(ERROR) << "[SemanticMapManager::UpdateBehaviralLanesDirection] neg_vehicle_num_per_lane is " << neg_vehicle_num_per_lane;
 
   if (pos_vehicle_num_per_lane < 1 && neg_vehicle_num_per_lane < 1) {
-    LOG(ERROR) << "[SemanticMapManager::UpdateBehaviralLanesDirection] lanes are not fully used, no need to increase nor decrease lane number";
+    //LOG(ERROR) << "[SemanticMapManager::UpdateBehaviralLanesDirection] lanes are not fully used, no need to increase nor decrease lane number";
     return kSuccess;
   }
 
   decimal_t rate = std::fmin(pos_vehicle_num_per_lane, neg_vehicle_num_per_lane) / std::fmax(pos_vehicle_num_per_lane, neg_vehicle_num_per_lane);
 
-  LOG(ERROR) << "[SemanticMapManager::UpdateBehaviralLanesDirection] rate is " << rate;
-  LOG(ERROR) << "[SemanticMapManager::UpdateBehaviralLanesDirection] cur_split_lane_id is " << cur_split_lane_id;
+  //LOG(ERROR) << "[SemanticMapManager::UpdateBehaviralLanesDirection] rate is " << rate;
+  //LOG(ERROR) << "[SemanticMapManager::UpdateBehaviralLanesDirection] cur_split_lane_id is " << cur_split_lane_id;
   if (rate < lane_direction_change_threshold_) {
     // 改变车道
     if (pos_vehicle_num_per_lane > neg_vehicle_num_per_lane 
         && behavioral_whole_lane_net_.behavioral_lanes.at(all_behavioral_lane_ids_[cur_split_lane_id]).dir_changeable()) {
       // 增加正向行驶的车道
-      LOG(ERROR) << "[SemanticMapManager::UpdateBehaviralLanesDirection] add main dir lane";
+      //LOG(ERROR) << "[SemanticMapManager::UpdateBehaviralLanesDirection] add main dir lane";
       behavioral_whole_lane_net_.behavioral_lanes.at(all_behavioral_lane_ids_[cur_split_lane_id]).reverse_cur_pass_dir_straight();
       pos_dir_lane_num++;
       neg_dir_lane_num--;
@@ -865,7 +865,7 @@ ErrorType SemanticMapManager::UpdateBehaviralLanesDirection() {
     else if (pos_vehicle_num_per_lane < neg_vehicle_num_per_lane 
              && behavioral_whole_lane_net_.behavioral_lanes.at(all_behavioral_lane_ids_[cur_split_lane_id-1]).dir_changeable()) {
       // 增加与主方向相反行驶的车道数量
-      LOG(ERROR) << "[SemanticMapManager::UpdateBehaviralLanesDirection] add opposite main dir lane";
+      //LOG(ERROR) << "[SemanticMapManager::UpdateBehaviralLanesDirection] add opposite main dir lane";
       behavioral_whole_lane_net_.behavioral_lanes.at(all_behavioral_lane_ids_[cur_split_lane_id-1]).reverse_cur_pass_dir_straight();
       pos_dir_lane_num--;
       neg_dir_lane_num++;
@@ -878,7 +878,7 @@ ErrorType SemanticMapManager::UpdateBehaviralLanesDirection() {
       && behavioral_whole_lane_net_.behavioral_lanes.at(all_behavioral_lane_ids_[cur_split_lane_id-1]).opp_uncertain_vehicle_encounter_conflict()
       && behavioral_whole_lane_net_.behavioral_lanes.at(all_behavioral_lane_ids_[cur_split_lane_id]).dir_changeable()) {
     // 当主方向车道数只有一条，且这条车道上有相遇冲突，并且最邻近一条车道的方向是可以切换的，则将最邻近的反向车道变为主方向车道
-    LOG(ERROR) << "[SemanticMapManager::UpdateBehaviralLanesDirection] add main dir lane because of encounter conflict.";
+    //LOG(ERROR) << "[SemanticMapManager::UpdateBehaviralLanesDirection] add main dir lane because of encounter conflict.";
     behavioral_whole_lane_net_.behavioral_lanes.at(all_behavioral_lane_ids_[cur_split_lane_id]).reverse_cur_pass_dir_straight();
     pos_dir_lane_num++;
     neg_dir_lane_num--;
@@ -887,7 +887,7 @@ ErrorType SemanticMapManager::UpdateBehaviralLanesDirection() {
            && behavioral_whole_lane_net_.behavioral_lanes.at(all_behavioral_lane_ids_[cur_split_lane_id]).opp_uncertain_vehicle_encounter_conflict()
            && behavioral_whole_lane_net_.behavioral_lanes.at(all_behavioral_lane_ids_[cur_split_lane_id-1]).dir_changeable()) {
     // 当反方向车道数只有一条，且这条车道上有相遇冲突，并且最邻近一条车道的方向是可以切换的，则将最邻近的主向车道变为反方向车道
-    LOG(ERROR) << "[SemanticMapManager::UpdateBehaviralLanesDirection] add main dir lane because of encounter conflict.";
+    //LOG(ERROR) << "[SemanticMapManager::UpdateBehaviralLanesDirection] add main dir lane because of encounter conflict.";
     behavioral_whole_lane_net_.behavioral_lanes.at(all_behavioral_lane_ids_[cur_split_lane_id-1]).reverse_cur_pass_dir_straight();
     pos_dir_lane_num--;
     neg_dir_lane_num++;
@@ -903,20 +903,20 @@ ErrorType SemanticMapManager::GetPriorityRankingForEgoVehicles(std::vector<int> 
     // 查看是否在缓冲区内部，需要在UpdateKeyVehicles中进行，若在缓冲区内部，则不设置为ego_vehicle。
     id_with_priority.emplace_back(std::make_pair(vehicle_id, ComputePriorityScore(vehicle_id)));
   }
-  LOG(ERROR) << "[SemanticMapManager::GetPriorityRankingForEgoVehicles] get priority score.";
-  LOG(ERROR) << "[SemanticMapManager::GetPriorityRankingForEgoVehicles] size of id_with_priority: " << id_with_priority.size();
+  //LOG(ERROR) << "[SemanticMapManager::GetPriorityRankingForEgoVehicles] get priority score.";
+  //LOG(ERROR) << "[SemanticMapManager::GetPriorityRankingForEgoVehicles] size of id_with_priority: " << id_with_priority.size();
   // 从小到大排序
   sort(id_with_priority.begin(), id_with_priority.end(), [](const std::pair<int, decimal_t> &a, const std::pair<int, decimal_t> &b) {
         return a.second < b.second;
   });
-  LOG(ERROR) << "[SemanticMapManager::GetPriorityRankingForEgoVehicles] finish sorting.\n";
+  //LOG(ERROR) << "[SemanticMapManager::GetPriorityRankingForEgoVehicles] finish sorting.\n";
 
   std::unordered_map<int, std::pair<int, decimal_t>> tmp_scores;
   int order = 0;
   
   for (const auto &p:id_with_priority) {
     rank->emplace_back(p.first);
-    LOG(WARNING) << "[SemanticMapManager::GetPriorityRankingForEgoVehicles] id: " << p.first;
+    //LOG(WARNING) << "[SemanticMapManager::GetPriorityRankingForEgoVehicles] id: " << p.first;
     if (!behavioral_key_vehicles_.behavioral_vehicles.at(p.first).is_task_init()) {
       // TODO for MLAD: 此 vehicle還沒有執行過任務，需要先下發直行的軌跡，後續可能要改
       rank->emplace_back(p.first);
@@ -990,7 +990,7 @@ bool SemanticMapManager::GetSpecVehicleCurrentTask(const int &ego_vehicle_id, co
   // 1. 获取指定ego vehicle的当前的任务，调用lane_evaluation决定是否变道，若不存在此agv、agv不可变道、当前车道不能变道、不需要云端规划，返回false；否则返回true，并生成task
   auto iter = behavioral_key_vehicles_.behavioral_vehicles.find(ego_vehicle_id);
   if (iter == behavioral_key_vehicles_.behavioral_vehicles.end()) {
-    LOG(ERROR) << "[GetSpecVehicleCurrentTask] not in behavioral_key_vehicles_ ";
+    //LOG(ERROR) << "[GetSpecVehicleCurrentTask] not in behavioral_key_vehicles_ ";
     return false;
   }
 
@@ -1013,14 +1013,14 @@ bool SemanticMapManager::GetSpecVehicleCurrentTask(const int &ego_vehicle_id, co
 
   // 2. 此agv是否可以变道
   if (!iter->second.vehicle().ready_change_lane()) {
-    LOG(ERROR) << "[GetSpecVehicleCurrentTask] not ready_change_lane \n";
+    //LOG(ERROR) << "[GetSpecVehicleCurrentTask] not ready_change_lane \n";
     return false;
   }
   
-  LOG(ERROR) << "[GetSpecVehicleCurrentTask] nearest_lane_id: " << nearest_lane_id;
+  //LOG(ERROR) << "[GetSpecVehicleCurrentTask] nearest_lane_id: " << nearest_lane_id;
   // 3. 当前车道所处的位置是否为可以变道的车道
   if (behavioral_whole_lane_net_.behavioral_lanes.find(nearest_lane_id) == behavioral_whole_lane_net_.behavioral_lanes.end()) {
-    LOG(ERROR) << "[GetSpecVehicleCurrentTask] nearest_lane_id: " << nearest_lane_id << " not in behavioral_whole_lane_net_";
+    //LOG(ERROR) << "[GetSpecVehicleCurrentTask] nearest_lane_id: " << nearest_lane_id << " not in behavioral_whole_lane_net_";
     return false;
   }
 
@@ -1028,7 +1028,7 @@ bool SemanticMapManager::GetSpecVehicleCurrentTask(const int &ego_vehicle_id, co
   decimal_t distance = GetDistanceToFinalPoint(iter->second.vehicle(), nearest_lane_id);
   if (distance - behavioral_whole_lane_net_.behavioral_lanes.at(nearest_lane_id).buffer() < least_change_lane_distance_) {
     // 与缓冲区的距离,小于变道最小所需的距离，则直行
-    LOG(ERROR) << "[GetSpecVehicleCurrentTask] buffer";
+    //LOG(ERROR) << "[GetSpecVehicleCurrentTask] buffer";
     // 爲了讓正在變道的agv，在車道方向更新後，能停止變道，保持直行
     return true;
   }
@@ -1077,7 +1077,7 @@ bool SemanticMapManager::GetSpecVehicleCurrentTask(const int &ego_vehicle_id, co
 
     if (!left_lane_available && !right_lane_available) {
       // 5. 两边车道都不能去
-      LOG(ERROR) << "[GetSpecVehicleCurrentTask] two sides are inavalible";
+      //LOG(ERROR) << "[GetSpecVehicleCurrentTask] two sides are inavalible";
       // 爲了讓正在變道的agv，在車道方向更新後，能停止變道，保持直行
       return true;
     }
@@ -1097,13 +1097,13 @@ bool SemanticMapManager::GetSpecVehicleCurrentTask(const int &ego_vehicle_id, co
     }
 
     decimal_t vehicle_num_per_lane = vehicle_num_cur_dir / lane_num_cur_dir;
-    LOG(WARNING) << "[GetSpecVehicleCurrentTask]  vehicle_num_per_lane : " << vehicle_num_per_lane + kSmallEPS;
+    //LOG(WARNING) << "[GetSpecVehicleCurrentTask]  vehicle_num_per_lane : " << vehicle_num_per_lane + kSmallEPS;
     // TODO for MLAD: 需要注意当前是只用预期在此车道上的vehicle数量计算，后面是否需要改？
-    LOG(WARNING) << "[GetSpecVehicleCurrentTask] target_num_in_spec_lane.at(nearest_lane_id): " << target_num_in_spec_lane.at(nearest_lane_id);
+    //LOG(WARNING) << "[GetSpecVehicleCurrentTask] target_num_in_spec_lane.at(nearest_lane_id): " << target_num_in_spec_lane.at(nearest_lane_id);
     
     decimal_t left_lane_score = -kInf; // 主方向上看，左侧车道的评分
     if (left_lane_available) {
-      LOG(WARNING) << "[GetSpecVehicleCurrentTask] target_num_in_spec_lane.at(left_lane_id): " << target_num_in_spec_lane.at(left_lane_id);
+      //LOG(WARNING) << "[GetSpecVehicleCurrentTask] target_num_in_spec_lane.at(left_lane_id): " << target_num_in_spec_lane.at(left_lane_id);
       left_lane_score = (target_num_in_spec_lane.at(nearest_lane_id) - target_num_in_spec_lane.at(left_lane_id)) / (vehicle_num_per_lane + kSmallEPS);
       // TODO for MLAD: 当前只实现了计算公式的第一项，之后需要实现第二项，根据车道距离边缘的距离
       // 距離邊緣的距離不好計算，這裏只加一個向中心走的分數
@@ -1112,11 +1112,11 @@ bool SemanticMapManager::GetSpecVehicleCurrentTask(const int &ego_vehicle_id, co
       }
     }
 
-    LOG(WARNING) << "[GetSpecVehicleCurrentTask] left_lane_score: " << left_lane_score;
+    //LOG(WARNING) << "[GetSpecVehicleCurrentTask] left_lane_score: " << left_lane_score;
 
     decimal_t right_lane_score = -kInf; // 主方向上看，右侧车道的评分
     if (right_lane_available) {
-      LOG(WARNING) << "[GetSpecVehicleCurrentTask] target_num_in_spec_lane.at(right_lane_id): " << target_num_in_spec_lane.at(right_lane_id);
+      //LOG(WARNING) << "[GetSpecVehicleCurrentTask] target_num_in_spec_lane.at(right_lane_id): " << target_num_in_spec_lane.at(right_lane_id);
       right_lane_score = (target_num_in_spec_lane.at(nearest_lane_id) - target_num_in_spec_lane.at(right_lane_id)) / (vehicle_num_per_lane + kSmallEPS);
 
       if (!is_main_dir) {
@@ -1124,14 +1124,14 @@ bool SemanticMapManager::GetSpecVehicleCurrentTask(const int &ego_vehicle_id, co
       }
     }
 
-    LOG(WARNING) << "[GetSpecVehicleCurrentTask] right_lane_score: " << right_lane_score;
+    //LOG(WARNING) << "[GetSpecVehicleCurrentTask] right_lane_score: " << right_lane_score;
 
     if (std::fmax(left_lane_score, right_lane_score) < vehicle_change_lane_threshold_ 
         && iter->second.conflict_leading_uncertain_vehicle_id() == kInvalidAgentId
         && iter->second.lane_drop_conflict_lane_id() == kInvalidLaneId) {
       // 6. 不变道，保持当前车道
       // 判断当前车道前方是否有相遇冲突，若conflict_leading_uncertain_vehicle_id()是kInvalidAgentId则表明没有，否则需要进入后续流程进行变道
-      LOG(WARNING) << "[GetSpecVehicleCurrentTask] scores are both lower than threshold. The max score is: " << std::fmax(left_lane_score, right_lane_score);
+      //LOG(WARNING) << "[GetSpecVehicleCurrentTask] scores are both lower than threshold. The max score is: " << std::fmax(left_lane_score, right_lane_score);
     }
     else if (left_lane_score > right_lane_score) {
       // 左边车道得分高，说明向左变道。若当前为主方向，则真实向左，-1；若当前不为主方向，则真实向右
@@ -1182,7 +1182,7 @@ bool SemanticMapManager::GetSpecVehicleCurrentTask(const int &ego_vehicle_id, co
   if (task->user_perferred_behavior == 0) {
     // 不变道，不会进入这里
     // TODO for MLAD: 删除这段？
-    LOG(ERROR) << "[GetSpecVehicleCurrentTask] task->user_perferred_behavior == 0 ";
+    //LOG(ERROR) << "[GetSpecVehicleCurrentTask] task->user_perferred_behavior == 0 ";
     task->is_under_ctrl = true;
     task->user_desired_vel = agent_config_infos_.at(iter->second.vehicle().type()).desire_velocity;
     task->target_lane_id = nearest_lane_id;
@@ -1191,19 +1191,19 @@ bool SemanticMapManager::GetSpecVehicleCurrentTask(const int &ego_vehicle_id, co
     // 爲了讓正在變道的agv，在車道方向更新後，能停止變道，保持直行
   }
 
-  LOG(ERROR) << "[SemanticMapManager::GetSpecVehicleCurrentTask] agv Id: " << ego_vehicle_id;
-  LOG(ERROR) << "[SemanticMapManager::GetSpecVehicleCurrentTask] task->user_perferred_behavior: " << task->user_perferred_behavior;
+  //LOG(ERROR) << "[SemanticMapManager::GetSpecVehicleCurrentTask] agv Id: " << ego_vehicle_id;
+  //LOG(ERROR) << "[SemanticMapManager::GetSpecVehicleCurrentTask] task->user_perferred_behavior: " << task->user_perferred_behavior;
 
   return true;
 }
 
 bool SemanticMapManager::GetSpecVehicleCurrentTaskfromMsg(const int &ego_vehicle_id, common::Task *task){
   // 1. 获取指定ego vehicle的当前的任务，调用lane_evaluation决定是否变道，若不存在此agv、agv不可变道、当前车道不能变道、不需要云端规划，返回false；否则返回true，并生成task
-  LOG(ERROR) << "GetSpecVehicleCurrentTaskfromMsg" << ego_vehicle_id;
-  LOG(ERROR) << "[GetSpecVehicleCurrentTask] function in \n";
+  //LOG(ERROR) << "GetSpecVehicleCurrentTaskfromMsg" << ego_vehicle_id;
+  //LOG(ERROR) << "[GetSpecVehicleCurrentTask] function in \n";
   auto iter = behavioral_key_vehicles_.behavioral_vehicles.find(ego_vehicle_id);
   if (iter == behavioral_key_vehicles_.behavioral_vehicles.end()) {
-    LOG(ERROR) << "[GetSpecVehicleCurrentTask] not in behavioral_key_vehicles_ ";
+    //LOG(ERROR) << "[GetSpecVehicleCurrentTask] not in behavioral_key_vehicles_ ";
     return false;
   }
   int nearest_lane_id = iter->second.nearest_lane_id();
@@ -1225,18 +1225,18 @@ bool SemanticMapManager::GetSpecVehicleCurrentTaskfromMsg(const int &ego_vehicle
 
   // 2. 此agv是否可以变道
   if (!iter->second.vehicle().ready_change_lane()) {
-    LOG(ERROR) << "[GetSpecVehicleCurrentTask] not ready_change_lane \n";
+    //LOG(ERROR) << "[GetSpecVehicleCurrentTask] not ready_change_lane \n";
     return false;
   }
   
-  LOG(ERROR) << "[GetSpecVehicleCurrentTask] nearest_lane_id: " << nearest_lane_id;
+  //LOG(ERROR) << "[GetSpecVehicleCurrentTask] nearest_lane_id: " << nearest_lane_id;
   // 3. 当前车道所处的位置是否为可以变道的车道
   if (behavioral_whole_lane_net_.behavioral_lanes.find(nearest_lane_id) == behavioral_whole_lane_net_.behavioral_lanes.end()) {
-    LOG(ERROR) << "[GetSpecVehicleCurrentTask] nearest_lane_id: " << nearest_lane_id << " not in behavioral_whole_lane_net_";
+    //LOG(ERROR) << "[GetSpecVehicleCurrentTask] nearest_lane_id: " << nearest_lane_id << " not in behavioral_whole_lane_net_";
     return false;
   }
   if(task_updated_){
-      LOG(ERROR) << "[SemanticMapManager::GetSpecVehicleCurrentTaskfromMsg" << task_updated_;
+      //LOG(ERROR) << "[SemanticMapManager::GetSpecVehicleCurrentTaskfromMsg" << task_updated_;
     task->is_under_ctrl = true;
     task->user_perferred_behavior = lane_change_tasks_.lc_tasks.find(ego_vehicle_id)->second.user_perferred_behavior;
     task->user_desired_vel = lane_change_tasks_.lc_tasks.find(ego_vehicle_id)->second.user_desired_vel;
@@ -1246,8 +1246,8 @@ bool SemanticMapManager::GetSpecVehicleCurrentTaskfromMsg(const int &ego_vehicle
   }
   
 
-  LOG(ERROR) << "[SemanticMapManager::GetSpecVehicleCurrentTask] agv Id: " << ego_vehicle_id;
-  LOG(ERROR) << "[SemanticMapManager::GetSpecVehicleCurrentTask] task->user_perferred_behavior: " << task->user_perferred_behavior;
+  //LOG(ERROR) << "[SemanticMapManager::GetSpecVehicleCurrentTask] agv Id: " << ego_vehicle_id;
+  //LOG(ERROR) << "[SemanticMapManager::GetSpecVehicleCurrentTask] task->user_perferred_behavior: " << task->user_perferred_behavior;
 
   return true;
 }
@@ -2155,7 +2155,7 @@ ErrorType SemanticMapManager::GetSpecRunningVehicleStateAtSpecTime(const int &be
 
 ErrorType SemanticMapManager::UpdateSpecEgoVehicleNextTask(const int &ego_vehicle_id, const common::Task &task) {
   if (ego_vehicle_ids_.find(ego_vehicle_id) == ego_vehicle_ids_.end()) {
-    LOG(ERROR) << "[SemanticMapManager::UpdateSpecEgoVehicleNextTask] ego vehicle id update task fail " << ego_vehicle_id;
+    //LOG(ERROR) << "[SemanticMapManager::UpdateSpecEgoVehicleNextTask] ego vehicle id update task fail " << ego_vehicle_id;
     return kWrongStatus;
   }
 
@@ -2179,8 +2179,8 @@ ErrorType SemanticMapManager::UpdateSpecEgoVehicleNextTask(const int &ego_vehicl
   if (target_lane_id == kInvalidLaneId) return kWrongStatus;
 
   behavioral_key_vehicles_.behavioral_vehicles.at(ego_vehicle_id).set_target_lane_id(target_lane_id);
-  LOG(ERROR) << "[SemanticMapManager::UpdateSpecEgoVehicleNextTask] ego vehicle id update task  ego_vehicle_id" << ego_vehicle_id;
-  LOG(ERROR) << "[SemanticMapManager::UpdateSpecEgoVehicleNextTask] ego vehicle id update task  target_lane_id" << target_lane_id;
+  //LOG(ERROR) << "[SemanticMapManager::UpdateSpecEgoVehicleNextTask] ego vehicle id update task  ego_vehicle_id" << ego_vehicle_id;
+  //LOG(ERROR) << "[SemanticMapManager::UpdateSpecEgoVehicleNextTask] ego vehicle id update task  target_lane_id" << target_lane_id;
   return kSuccess;
 }
 
@@ -2207,16 +2207,16 @@ ErrorType SemanticMapManager::UpdateTaskSetbyMsg(const common::TaskSet taskset){
     lane_change_tasks_.lc_tasks.emplace(k.first, k.second);
   }
   task_updated_ = true;
-  LOG(ERROR) << "[UpdateSemanticMap] lane_change_tasks_length" << lane_change_tasks_.lc_tasks.size();
+  //LOG(ERROR) << "[UpdateSemanticMap] lane_change_tasks_length" << lane_change_tasks_.lc_tasks.size();
   std::vector<int> rank;
-  LOG(ERROR) << "[UpdateSemanticMap] Start to get priority.";
+  //LOG(ERROR) << "[UpdateSemanticMap] Start to get priority.";
   //GetPriorityRankingForEgoVehicles(&rank);
   for(int i = 8; i > 0; i--){
     rank.push_back(i); 
   }
-  LOG(ERROR) << "[UpdateSemanticMap] rank size is "<< rank.size();
+  //LOG(ERROR) << "[UpdateSemanticMap] rank size is "<< rank.size();
   id_queue->UpdateQueue(rank);
-  LOG(ERROR) << "[UpdateSemanticMap] finish updating queue.\n";
+  //LOG(ERROR) << "[UpdateSemanticMap] finish updating queue.\n";
 
 
   return kSuccess;
@@ -2300,7 +2300,7 @@ ErrorType SemanticMapManager::GetSpecEgoVehicleReplyComplete(const int &ego_vehi
   else {
     // 设置等待确认回复只等待指定t秒？t秒后，之前规划出来的行为规划，已经失效，没有意义了
     if (cur_time_stamp.toSec() - real_uid_time_stamp.toSec() > max_wait_update_time_) {
-      LOG(ERROR) << "[GetSpecEgoVehicleReplyComplete] overtime. \n";
+      //LOG(ERROR) << "[GetSpecEgoVehicleReplyComplete] overtime. \n";
       reply = false;
     }
     else {
@@ -2442,9 +2442,9 @@ ErrorType SemanticMapManager::UncertainVehiclesAvoidanceCheck() {
         // TODO for MLAD: 这里改为，id_queue为空时，触发变道，会不会更好？有障碍物时POMDP规划更加频繁，更安全，也可以避免规划失败后，只能停留在原地的尴尬？
         if (behavioral_key_vehicles_.behavioral_vehicles.at(id).conflict_leading_uncertain_vehicle_id() != temp_conflict_leading_uncertain_vehicle_id) {
           // 當障礙物和上一次不同時，觸發變道
-          LOG(ERROR) 
-              << "[UncertainVehiclesAvoidanceCheck] Find new leading opposite uncertain vehicle confict. Current ego id is "
-              << id << ", uncertain vehicle id is " << leading_uncertain_vehicle_id;
+          //LOG(ERROR) 
+             // << "[UncertainVehiclesAvoidanceCheck] Find new leading opposite uncertain vehicle confict. Current ego id is "
+            //  << id << ", uncertain vehicle id is " << leading_uncertain_vehicle_id;
           need_plan_now_ = true;
         }
         else if (id_queue->Empty()) {
@@ -2453,9 +2453,9 @@ ErrorType SemanticMapManager::UncertainVehiclesAvoidanceCheck() {
           ros::Time last_uid_time_stamp;
           if (behavioral_key_vehicles_.behavioral_vehicles[id].GetLastBehaviorUIDWithTime(&last_behavior_uid, &last_uid_time_stamp) == kSuccess) {
             if (ros::Time::now().toSec() - last_uid_time_stamp.toSec() > uncertain_avoidance_replan_interval_) {
-              LOG(ERROR) 
-                << "[UncertainVehiclesAvoidanceCheck] still last leading opposite uncertain vehicle confict and would replan. Current ego id is " 
-                << id << ", uncertain vehicle id is " << leading_uncertain_vehicle_id;
+              //LOG(ERROR) 
+               // << "[UncertainVehiclesAvoidanceCheck] still last leading opposite uncertain vehicle confict and would replan. Current ego id is " 
+               // << id << ", uncertain vehicle id is " << leading_uncertain_vehicle_id;
               need_plan_now_ = true;
             }
           }
@@ -2497,9 +2497,9 @@ ErrorType SemanticMapManager::LaneDropAvoidanceCheck() {
     if (behavioral_whole_lane_net_.behavioral_lanes.at(nearest_lane_id).lane_drop_conflict()) {
       // 当前车道是有lane drop的，需要进行变道
       if (behavioral_key_vehicles_.behavioral_vehicles.at(id).lane_drop_conflict_lane_id() != nearest_lane_id) {
-        LOG(ERROR) 
-              << "[LaneDropAvoidanceCheck] nearest lane is drop-lane, which is not the same as previous one. Current ego id is "
-              << id << ", nearest lane id is " << nearest_lane_id;
+        //LOG(ERROR) 
+            //  << "[LaneDropAvoidanceCheck] nearest lane is drop-lane, which is not the same as previous one. Current ego id is "
+            //  << id << ", nearest lane id is " << nearest_lane_id;
         need_plan_now_ = true;
       }
       else if (id_queue->Empty()) {
@@ -2508,9 +2508,9 @@ ErrorType SemanticMapManager::LaneDropAvoidanceCheck() {
         ros::Time last_uid_time_stamp;
         if (behavioral_key_vehicles_.behavioral_vehicles[id].GetLastBehaviorUIDWithTime(&last_behavior_uid, &last_uid_time_stamp) == kSuccess) {
           if (ros::Time::now().toSec() - last_uid_time_stamp.toSec() > uncertain_avoidance_replan_interval_) {
-            LOG(ERROR) 
-              << "[LaneDropAvoidanceCheck] still drop-lane and would replan. Current ego id is " 
-              << id << ", nearest lane id is " << nearest_lane_id;
+            //LOG(ERROR) 
+            //  << "[LaneDropAvoidanceCheck] still drop-lane and would replan. Current ego id is " 
+             // << id << ", nearest lane id is " << nearest_lane_id;
             need_plan_now_ = true;
           }
         }
@@ -2539,8 +2539,8 @@ ErrorType SemanticMapManager::StopVehicleCheck() {
       ros::Time last_uid_time_stamp;
       if (behavioral_key_vehicles_.behavioral_vehicles[id].GetLastBehaviorUIDWithTime(&last_behavior_uid, &last_uid_time_stamp) == kSuccess) {
         if (ros::Time::now().toSec() - last_uid_time_stamp.toSec() > uncertain_avoidance_replan_interval_) {
-          LOG(ERROR) 
-            << "[LaneDropAvoidanceCheck] vehicle is trapped and stop. Would replan. Current ego id is " << id;
+          //LOG(ERROR) 
+            //<< "[LaneDropAvoidanceCheck] vehicle is trapped and stop. Would replan. Current ego id is " << id;
           need_plan_now_ = true;
         }
       }

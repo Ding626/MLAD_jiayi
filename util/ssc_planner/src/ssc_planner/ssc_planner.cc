@@ -60,13 +60,13 @@ ErrorType SscPlanner::Init(const std::string config_path) {
 }
 
 ErrorType SscPlanner::ReadConfig(const std::string config_path) {
-  LOG(WARNING) << "\n[EudmPlanner] Loading ssc planner config";
+  //LOG(WARNING) << "\n[EudmPlanner] Loading ssc planner config";
   using namespace google::protobuf;
   int fd = open(config_path.c_str(), O_RDONLY);
   io::FileInputStream fstream(fd);
   TextFormat::Parse(&fstream, &cfg_);
   if (!cfg_.IsInitialized()) {
-    LOG(ERROR) << "failed to parse config from " << config_path;
+    //LOG(ERROR) << "failed to parse config from " << config_path;
     assert(false);
   }
   return kSuccess;
@@ -80,16 +80,16 @@ ErrorType SscPlanner::set_initial_state(const State& state) {
 
 ErrorType SscPlanner::RunOnce() {
   stamp_ = map_itf_->GetTimeStamp();
-  LOG(WARNING) << std::fixed << std::setprecision(4)
-               << "[Ssc]******************** RUNONCE START: " << stamp_
-               << " ********************\n";
+  //LOG(WARNING) << std::fixed << std::setprecision(4)
+              //  << "[Ssc]******************** RUNONCE START: " << stamp_
+              //  << " ********************\n";
   static TicToc ssc_timer;
   ssc_timer.tic();
 
   static TicToc timer_prepare;
   timer_prepare.tic();
   if (map_itf_->GetEgoVehicle(&ego_vehicle_) != kSuccess) {
-    LOG(ERROR) << "[Ssc]fail to get ego vehicle info.";
+    //LOG(ERROR) << "[Ssc]fail to get ego vehicle info.";
     return kWrongStatus;
   }
 
@@ -104,49 +104,49 @@ ErrorType SscPlanner::RunOnce() {
           ? true
           : false;
   if (map_itf_->GetLocalReferenceLane(&nav_lane_local_) != kSuccess) {
-    LOG(ERROR) << "[Ssc]fail to find ego lane.";
+    //LOG(ERROR) << "[Ssc]fail to find ego lane.";
     return kWrongStatus;
   }
   stf_ = common::StateTransformer(nav_lane_local_);
 
   if (stf_.GetFrenetStateFromState(initial_state_, &initial_frenet_state_) !=
       kSuccess) {
-    LOG(ERROR) << "[Ssc]fail to get init state frenet state.";
+    //LOG(ERROR) << "[Ssc]fail to get init state frenet state.";
     return kWrongStatus;
   }
 
   if (map_itf_->GetEgoDiscretBehavior(&ego_behavior_) != kSuccess) {
-    LOG(ERROR) << "[Ssc]fail to get ego behavior.";
+    //LOG(ERROR) << "[Ssc]fail to get ego behavior.";
     return kWrongStatus;
   }
 
   if (map_itf_->GetObstacleMap(&grid_map_) != kSuccess) {
-    LOG(ERROR) << "[Ssc]fail to get obstacle map.";
+    //LOG(ERROR) << "[Ssc]fail to get obstacle map.";
     return kWrongStatus;
   }
 
   if (map_itf_->GetObstacleGrids(&obstacle_grids_) != kSuccess) {
-    LOG(ERROR) << "[Ssc]fail to get obstacle grids.";
+    //LOG(ERROR) << "[Ssc]fail to get obstacle grids.";
     return kWrongStatus;
   }
 
   if (map_itf_->GetForwardTrajectories(&forward_behaviors_, &forward_trajs_,
                                        &surround_forward_trajs_) != kSuccess) {
-    LOG(ERROR) << "[Ssc]fail to get forward trajectories.";
+    //LOG(ERROR) << "[Ssc]fail to get forward trajectories.";
     return kWrongStatus;
   }
 
   auto t_prepare = timer_prepare.toc();
-  LOG(WARNING) << "[Ssc]prepare time cost: " << t_prepare << " ms";
+  //LOG(WARNING) << "[Ssc]prepare time cost: " << t_prepare << " ms";
 
   static TicToc timer_stf;
   timer_stf.tic();
   if (StateTransformForInputData() != kSuccess) {
-    LOG(ERROR) << "[Ssc]fail to transform state into ff.";
+    //LOG(ERROR) << "[Ssc]fail to transform state into ff.";
     return kWrongStatus;
   }
   auto t_stf = timer_stf.toc();
-  LOG(WARNING) << "[Ssc]state transform time cost: " << t_stf << " ms";
+  //LOG(WARNING) << "[Ssc]state transform time cost: " << t_stf << " ms";
 
   static TicToc timer_sscmap;  // ! SscMap part sometimes can be very slow
                                // ! (Maybe CPU scheduling?)
@@ -159,7 +159,7 @@ ErrorType SscPlanner::RunOnce() {
     if (!cfg_.planner_cfg().is_fitting_only()) {
       if (p_ssc_map_->ConstructSscMap(surround_forward_trajs_fs_[i],
                                       obstacle_grids_fs_)) {
-        LOG(ERROR) << "[Ssc]fail to construct ssc map.";
+        //LOG(ERROR) << "[Ssc]fail to construct ssc map.";
         return kWrongStatus;
       }
     }
@@ -171,52 +171,52 @@ ErrorType SscPlanner::RunOnce() {
     //        timer_infl.toc());
     if (p_ssc_map_->ConstructCorridorUsingInitialTrajectory(
             p_ssc_map_->p_3d_grid(), forward_trajs_fs_[i]) != kSuccess) {
-      LOG(ERROR) << "[Ssc]fail to construct corridor for behavior " << i;
+      //LOG(ERROR) << "[Ssc]fail to construct corridor for behavior " << i;
       return kWrongStatus;
     }
   }
   if (kSuccess != p_ssc_map_->GetFinalGlobalMetricCubesList()) {
-    LOG(ERROR) << "[Ssc]fail to get final corridor";
+    //LOG(ERROR) << "[Ssc]fail to get final corridor";
     return kWrongStatus;
   }
   auto t_sscmap = timer_sscmap.toc();
-  LOG(WARNING) << "[Ssc]construct ssc map and corridor time cost: " << t_sscmap
-               << " ms";
+  // LOG(WARNING) << "[Ssc]construct ssc map and corridor time cost: " << t_sscmap
+              //  << " ms";
 
   static TicToc timer_opt;
   timer_opt.tic();
   if (RunQpOptimization() != kSuccess) {
-    LOG(ERROR) << "[Ssc]fail to optimize qp trajectories.\n";
+    //LOG(ERROR) << "[Ssc]fail to optimize qp trajectories.\n";
     return kWrongStatus;
   }
 
   if (UpdateTrajectoryWithCurrentBehavior() != kSuccess) {
-    LOG(ERROR) << "[Ssc]fail: current behavior "
-               << static_cast<int>(ego_behavior_) << " not valid.";
-    LOG(ERROR) << "[Ssc]fail: has " << qp_trajs_.size() << " traj, "
-               << valid_behaviors_.size() << " behaviors.";
+    //LOG(ERROR) << "[Ssc]fail: current behavior "
+              //  << static_cast<int>(ego_behavior_) << " not valid.";
+    //LOG(ERROR) << "[Ssc]fail: has " << qp_trajs_.size() << " traj, "
+              //  << valid_behaviors_.size() << " behaviors.";
     return kWrongStatus;
   }
 
 #if 0
   auto traj = trajectory();
   if (ValidateTrajectory(*traj) != kSuccess) {
-    LOG(ERROR) << "[Ssc]fail: infeasible traj.";
+    //LOG(ERROR) << "[Ssc]fail: infeasible traj.";
     return kWrongStatus;
   }
 #endif
 
   auto t_opt = timer_opt.toc();
-  LOG(WARNING) << "[Ssc]optimization time cost: " << t_opt << " ms";
+  //LOG(WARNING) << "[Ssc]optimization time cost: " << t_opt << " ms";
 
   auto t_sum = t_prepare + t_stf + t_sscmap + t_opt;
   time_cost_ = ssc_timer.toc();
-  LOG(WARNING) << std::fixed << std::setprecision(4)
-               << "[Ssc]Sum of time: " << t_sum
-               << " ms, diff: " << time_cost_ - t_sum << " ms";
-  LOG(WARNING) << std::fixed << std::setprecision(4)
-               << "[Ssc]******************** RUNONCE FINISH: " << stamp_ << " +"
-               << time_cost_ << " ms ********************\n";
+  //LOG(WARNING) << std::fixed << std::setprecision(4)
+              //  << "[Ssc]Sum of time: " << t_sum
+              //  << " ms, diff: " << time_cost_ - t_sum << " ms";
+  //LOG(WARNING) << std::fixed << std::setprecision(4)
+              //  << "[Ssc]******************** RUNONCE FINISH: " << stamp_ << " +"
+              //  << time_cost_ << " ms ********************\n";
 
   return kSuccess;
 }  // namespace planning
@@ -227,11 +227,11 @@ ErrorType SscPlanner::RunQpOptimization() {
   std::vector<int> if_corridor_valid = p_ssc_map_->if_corridor_valid();
   if (cube_list.empty()) return kWrongStatus;
   if (cube_list.size() != forward_behaviors_.size()) {
-    LOG(ERROR) << "[Ssc]cube list " << static_cast<int>(cube_list.size())
-               << " not consist with behavior size: "
-               << static_cast<int>(forward_behaviors_.size())
-               << ", forward traj " << static_cast<int>(forward_trajs_.size())
-               << ", flag size " << static_cast<int>(if_corridor_valid.size());
+    //LOG(ERROR) << "[Ssc]cube list " << static_cast<int>(cube_list.size())
+              //  << " not consist with behavior size: "
+              //  << static_cast<int>(forward_behaviors_.size())
+              //  << ", forward traj " << static_cast<int>(forward_trajs_.size())
+              //  << ", flag size " << static_cast<int>(if_corridor_valid.size());
     return kWrongStatus;
   }
 
@@ -243,9 +243,9 @@ ErrorType SscPlanner::RunQpOptimization() {
   for (int i = 0; i < static_cast<int>(cube_list.size()); i++) {
     int beh = static_cast<int>(forward_behaviors_[i]);
     if (if_corridor_valid[i] == 0) {
-      LOG(ERROR) << "[Ssc]fail: for behavior "
-                 << static_cast<int>(forward_behaviors_[i])
-                 << " has no valid corridor.";
+      //LOG(ERROR) << "[Ssc]fail: for behavior "
+                //  << static_cast<int>(forward_behaviors_[i])
+                //  << " has no valid corridor.";
       continue;
     }
 
@@ -282,7 +282,7 @@ ErrorType SscPlanner::RunQpOptimization() {
     cube_list[i].back().t_ub = fs_vehicle_traj.back().frenet_state.time_stamp;
 
     if (CorridorFeasibilityCheck(cube_list[i]) != kSuccess) {
-      LOG(ERROR) << "[Ssc]fail: corridor not valid for optimization.";
+      //LOG(ERROR) << "[Ssc]fail: corridor not valid for optimization.";
       continue;
     }
 
@@ -302,48 +302,48 @@ ErrorType SscPlanner::RunQpOptimization() {
             ref_points, cfg_.planner_cfg().weight_proximity(),
             &bezier_spline) != kSuccess) {
       if (is_lateral_independent_) {
-        LOG(ERROR) << "[Ssc]fail: solver error for behavior "
-                   << static_cast<int>(forward_behaviors_[i]);
+        //LOG(ERROR) << "[Ssc]fail: solver error for behavior "
+                  //  << static_cast<int>(forward_behaviors_[i]);
         decimal_t t0 = cube_list[i].front().t_lb;
         for (auto& cube : cube_list[i]) {
-          LOG(ERROR) << std::fixed << std::setprecision(3) << "[Ssc] t: ["
-                     << cube.t_lb - t0 << ", " << cube.t_ub - t0 << "], x: ["
-                     << cube.p_lb[0] << ", " << cube.p_ub[0] << "], y: ["
-                     << cube.p_lb[1] << ", " << cube.p_ub[1] << "]";
+          //LOG(ERROR) << std::fixed << std::setprecision(3) << "[Ssc] t: ["
+                    //  << cube.t_lb - t0 << ", " << cube.t_ub - t0 << "], x: ["
+                    //  << cube.p_lb[0] << ", " << cube.p_ub[0] << "], y: ["
+                    //  << cube.p_lb[1] << ", " << cube.p_ub[1] << "]";
         }
-        LOG(ERROR) << "[Ssc]ref points: ";
+        //LOG(ERROR) << "[Ssc]ref points: ";
         for (int k = 0; k < ref_stamps.size(); ++k) {
-          LOG(ERROR) << std::fixed << std::setprecision(4) << "[Ssc]" << k
-                     << " t: " << ref_stamps[k] << ", x: " << ref_points[k].x()
-                     << ", y: " << ref_points[k].y();
+          //LOG(ERROR) << std::fixed << std::setprecision(4) << "[Ssc]" << k
+                    //  << " t: " << ref_stamps[k] << ", x: " << ref_points[k].x()
+                    //  << ", y: " << ref_points[k].y();
         }
-        LOG(ERROR) << "[Ssc]forward traj: ";
+        //LOG(ERROR) << "[Ssc]forward traj: ";
         for (int k = 0; k < forward_trajs_[i].size(); ++k) {
           auto v = forward_trajs_[i][k];
-          LOG(ERROR) << std::fixed << std::setprecision(4) << "[Ssc]" << k
-                     << " t: " << v.state().time_stamp
-                     << ", x: " << v.state().vec_position.x()
-                     << ", y: " << v.state().vec_position.y()
-                     << ", v: " << v.state().velocity;
+          //LOG(ERROR) << std::fixed << std::setprecision(4) << "[Ssc]" << k
+                    //  << " t: " << v.state().time_stamp
+                    //  << ", x: " << v.state().vec_position.x()
+                    //  << ", y: " << v.state().vec_position.y()
+                    //  << ", v: " << v.state().velocity;
         }
-        LOG(ERROR) << "[Ssc]ref lane range: [" << nav_lane_local_.begin()
-                   << ", " << nav_lane_local_.end() << "]";
+        //LOG(ERROR) << "[Ssc]ref lane range: [" << nav_lane_local_.begin()
+                  //  << ", " << nav_lane_local_.end() << "]";
 
-        LOG(ERROR) << std::fixed << std::setprecision(4)
-                   << "[Ssc]Start sd velocity (" << start_constraints[1](0)
-                   << ", " << start_constraints[1](1) << ")";
-        LOG(ERROR) << std::fixed << std::setprecision(4)
-                   << "[Ssc]Start sd acceleration (" << start_constraints[2](0)
-                   << ", " << start_constraints[2](1) << ")";
-        LOG(ERROR) << std::fixed << std::setprecision(4)
-                   << "[Ssc]End sd position (" << end_constraints[0](0) << ", "
-                   << end_constraints[0](1) << ")";
-        LOG(ERROR) << std::fixed << std::setprecision(4)
-                   << "[Ssc]End sd velocity (" << end_constraints[1](0) << ", "
-                   << end_constraints[1](1) << ")";
-        LOG(ERROR) << std::fixed << std::setprecision(4)
-                   << "[Ssc]End state stamp: "
-                   << fs_vehicle_traj[num_states - 1].frenet_state.time_stamp;
+        //LOG(ERROR) << std::fixed << std::setprecision(4)
+                  //  << "[Ssc]Start sd velocity (" << start_constraints[1](0)
+                  //  << ", " << start_constraints[1](1) << ")";
+        //LOG(ERROR) << std::fixed << std::setprecision(4)
+                  //  << "[Ssc]Start sd acceleration (" << start_constraints[2](0)
+                  //  << ", " << start_constraints[2](1) << ")";
+        //LOG(ERROR) << std::fixed << std::setprecision(4)
+                  //  << "[Ssc]End sd position (" << end_constraints[0](0) << ", "
+                  //  << end_constraints[0](1) << ")";
+        //LOG(ERROR) << std::fixed << std::setprecision(4)
+                  //  << "[Ssc]End sd velocity (" << end_constraints[1](0) << ", "
+                  //  << end_constraints[1](1) << ")";
+        //LOG(ERROR) << std::fixed << std::setprecision(4)
+                  //  << "[Ssc]End state stamp: "
+                  //  << fs_vehicle_traj[num_states - 1].frenet_state.time_stamp;
       }
       bezier_spline_gen_success = false;
     }
@@ -407,20 +407,20 @@ ErrorType SscPlanner::CorridorFeasibilityCheck(
     const vec_E<common::SpatioTemporalSemanticCubeNd<2>>& cubes) {
   int num_cubes = static_cast<int>(cubes.size());
   if (num_cubes < 1) {
-    LOG(ERROR) << "[Ssc]number of cubes not enough.";
+    //LOG(ERROR) << "[Ssc]number of cubes not enough.";
     return kWrongStatus;
   }
   for (int i = 1; i < num_cubes; i++) {
     if (cubes[i - 1].t_ub != cubes[i].t_lb) {
-      LOG(ERROR) << "[Ssc]Err- Corridor not consist.";
-      LOG(ERROR) << "[Ssc]Err - t: [" << cubes[i - 1].t_lb << ", "
-                 << cubes[i - 1].t_ub << "], x: [" << cubes[i - 1].p_lb[0]
-                 << ", " << cubes[i - 1].p_ub[0] << "], y: ["
-                 << cubes[i - 1].p_lb[1] << ", " << cubes[i - 1].p_ub[1] << "]";
-      LOG(ERROR) << "[Ssc]Err - t: [" << cubes[i].t_lb << ", " << cubes[i].t_ub
-                 << "], x: [" << cubes[i].p_lb[0] << ", " << cubes[i].p_ub[0]
-                 << "], y: [" << cubes[i].p_lb[1] << ", " << cubes[i].p_ub[1]
-                 << "]";
+      // //LOG(ERROR) << "[Ssc]Err- Corridor not consist.";
+      // //LOG(ERROR) << "[Ssc]Err - t: [" << cubes[i - 1].t_lb << ", "
+      //            << cubes[i - 1].t_ub << "], x: [" << cubes[i - 1].p_lb[0]
+      //            << ", " << cubes[i - 1].p_ub[0] << "], y: ["
+      //            << cubes[i - 1].p_lb[1] << ", " << cubes[i - 1].p_ub[1] << "]";
+      // //LOG(ERROR) << "[Ssc]Err - t: [" << cubes[i].t_lb << ", " << cubes[i].t_ub
+      //            << "], x: [" << cubes[i].p_lb[0] << ", " << cubes[i].p_ub[0]
+      //            << "], y: [" << cubes[i].p_lb[1] << ", " << cubes[i].p_ub[1]
+      //            << "]";
       return kWrongStatus;
     }
   }
@@ -508,14 +508,14 @@ ErrorType SscPlanner::StateTransformForInputData() {
   TicToc timer_stf;
   StateTransformUsingOpenMp(global_state_vec, global_point_vec,
                             &frenet_state_vec, &fs_point_vec);
-  LOG(WARNING) << "[Ssc]OpenMp transform time cost: " << timer_stf.toc()
-               << " ms.";
+  //LOG(WARNING) << "[Ssc]OpenMp transform time cost: " << timer_stf.toc()
+              //  << " ms.";
 #else
   TicToc timer_stf;
   StateTransformSingleThread(global_state_vec, global_point_vec,
                              &frenet_state_vec, &fs_point_vec);
-  LOG(WARNING) << "[Ssc]Single thread transform time cost: " << timer_stf.toc()
-               << " ms.";
+  //LOG(WARNING) << "[Ssc]Single thread transform time cost: " << timer_stf.toc()
+              //  << " ms.";
 #endif
 
   // ~ Stage III. Retrieve states and points
@@ -598,8 +598,8 @@ ErrorType SscPlanner::StateTransformUsingOpenMp(
   auto ptr_state_vec = frenet_state_vec->data();
   auto ptr_point_vec = fs_point_vec->data();
 
-  LOG(WARNING) << "[Ssc]OpenMp - Total number of queries: "
-               << state_num + point_num;
+  //LOG(WARNING) << "[Ssc]OpenMp - Total number of queries: "
+              //  << state_num + point_num;
   omp_set_num_threads(4);
   {
 #pragma omp parallel for
@@ -660,34 +660,34 @@ ErrorType SscPlanner::ValidateTrajectory(const FrenetTrajectory& traj) {
   common::State state;
   // * check init state
   if (traj.GetState(traj.begin(), &state) != kSuccess) {
-    LOG(ERROR) << "[Ssc][Validate]State evaluation error";
+    //LOG(ERROR) << "[Ssc][Validate]State evaluation error";
     return kWrongStatus;
   }
 
   if ((state.vec_position - initial_state_.vec_position).norm() > 0.1) {
-    LOG(ERROR) << "[Ssc][Validate]Init position miss match";
+    //LOG(ERROR) << "[Ssc][Validate]Init position miss match";
     return kWrongStatus;
   }
 
   if (fabs(state.velocity - initial_state_.velocity) > 0.1) {
-    LOG(ERROR) << "[Ssc][Validate]Init vel miss match";
+    //LOG(ERROR) << "[Ssc][Validate]Init vel miss match";
     return kWrongStatus;
   }
   // * check end state
   if (traj.GetState(traj.end(), &state) != kSuccess) {
-    LOG(ERROR) << "[Ssc][Validate]End state eval error";
+    //LOG(ERROR) << "[Ssc][Validate]End state eval error";
     return kWrongStatus;
   }
 
   for (const auto t : t_vec_xy) {
     if (traj.GetState(t, &state) != kSuccess) {
-      LOG(ERROR) << "[Ssc][Validate]State eval error";
+      //LOG(ERROR) << "[Ssc][Validate]State eval error";
       return kWrongStatus;
     }
     if (fabs(state.curvature) > 0.33) {
-      LOG(ERROR) << "[Ssc][Validate]initial_state velocity "
-                 << initial_state_.velocity << " Curvature " << state.curvature
-                 << " invalid.";
+      //LOG(ERROR) << "[Ssc][Validate]initial_state velocity "
+                //  << initial_state_.velocity << " Curvature " << state.curvature
+                //  << " invalid.";
       return kWrongStatus;
     }
   }

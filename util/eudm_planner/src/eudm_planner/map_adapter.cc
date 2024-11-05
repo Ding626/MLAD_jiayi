@@ -25,7 +25,7 @@ ErrorType EudmPlannerMapAdapter::GetEgoVehicle(common::Vehicle *vehicle) {
 ErrorType EudmPlannerMapAdapter::GetEgoLaneIdByPosition(
     const std::vector<int> &navi_path, int *lane_id) {
   if (!is_valid_) {
-    LOG(ERROR) << "[GetEgoLaneIdByPosition]Interface not valid.";
+    //LOG(ERROR) << "[GetEgoLaneIdByPosition]Interface not valid.";
     return kWrongStatus;
   }
 
@@ -40,7 +40,7 @@ ErrorType EudmPlannerMapAdapter::GetEgoLaneIdByPosition(
   if (map_.GetNearestLaneIdUsingState(state_3dof, navi_path, &ego_lane_id,
                                        &distance_to_lane,
                                        &arc_len) != kSuccess) {
-    LOG(ERROR) << "[GetEgoLaneIdByPosition]Cannot get nearest lane.";
+    //LOG(ERROR) << "[GetEgoLaneIdByPosition]Cannot get nearest lane.";
     return kWrongStatus;
   }
 
@@ -52,13 +52,13 @@ ErrorType EudmPlannerMapAdapter::GetNearestLaneIdUsingState(
     const Vec3f &state, const std::vector<int> &navi_path, int *id,
     decimal_t *distance, decimal_t *arc_len) {
   if (!is_valid_) {
-    LOG(ERROR) << "[GetNearestLaneIdUsingState]Interface not valid.";
+    //LOG(ERROR) << "[GetNearestLaneIdUsingState]Interface not valid.";
     return kWrongStatus;
   }
   std::set<std::tuple<decimal_t, decimal_t, int>> dist_set;
   if (map_.GetNearestLaneIdUsingState(state, navi_path, id, distance,
                                        arc_len) != kSuccess) {
-    LOG(ERROR) << "[GetNearestLaneIdUsingState]Cannot get nearest lane.";
+    //LOG(ERROR) << "[GetNearestLaneIdUsingState]Cannot get nearest lane.";
     return kWrongStatus;
   }
   return kSuccess;
@@ -68,12 +68,12 @@ ErrorType EudmPlannerMapAdapter::IsTopologicallyReachable(
     const int lane_id, const std::vector<int> &path, int *num_lane_changes,
     bool *res) {
   if (!is_valid_) {
-    LOG(ERROR) << "[IsTopologicallyReachable]Interface not valid.";
+    //LOG(ERROR) << "[IsTopologicallyReachable]Interface not valid.";
     return kWrongStatus;
   }
   if (map_.IsTopologicallyReachable(lane_id, path, num_lane_changes, res) !=
       kSuccess) {
-    LOG(ERROR) << "[IsTopologicallyReachable]Cannot get nearest lane.";
+    //LOG(ERROR) << "[IsTopologicallyReachable]Cannot get nearest lane.";
     return kWrongStatus;
   }
   return kSuccess;
